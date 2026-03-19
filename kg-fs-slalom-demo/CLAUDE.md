@@ -471,6 +471,8 @@ All documents and structured data in Phase 1 are scoped exclusively to the Energ
 - Performance target: p95 query latency < 8s end-to-end
 - Ingest 50 additional utility documents from Phase 1c backlog
 - Demo script + fixture data for SDG&E FSM scenario
+- **Ingestion status page** (read-only): shows job queue, doc counts per category, last-run timestamps
+  *(Full admin console — ontology editor, review queue, curator UI — ships in Phase 2)*
 
 **Verification:** Full end-to-end demo with 3 representative consultant queries:
 1. "What questions should I ask SDG&E about their FSM replacement?"
@@ -499,7 +501,7 @@ All documents and structured data in Phase 1 are scoped exclusively to the Energ
 
 ### Phase 2: Enhancement (Weeks 13–24)
 
-**Goal:** Production-ready for 3 practices. Automated ingestion.
+**Goal:** Production-ready for 3 practices. Automated ingestion. Full admin console.
 
 - Automated ingestion pipeline (Airflow DAGs) + Salesforce CRM sync
 - NER + relation extraction pipeline (Claude Haiku batch)
@@ -508,8 +510,8 @@ All documents and structured data in Phase 1 are scoped exclusively to the Energ
 - Okta SSO integration
 - Feedback loop: thumbs up/down → reranker fine-tuning data
 - Solution Accelerator nodes linked to use cases
-- Meeting prep brief generator (structured output)
-- Admin console: ontology management, ingestion dashboard, KG curator UI
+- **Full admin console**: ontology editor, entity review queue, KG curator UI, feedback viewer
+- Expand to adjacent energy domains: renewable generation, T&D operations, water utilities
 
 **Success metric:** Retrieval precision > 0.80 on golden test set across 3 practices
 
@@ -528,6 +530,117 @@ All documents and structured data in Phase 1 are scoped exclusively to the Energ
 - **External enrichment**: FERC/CPUC regulatory filings as context nodes
 
 **Success metric:** Sub-60-second meeting prep brief from calendar invite; measurable deal win rate lift
+
+---
+
+## 10. Observability & Monitoring
+
+### Structured Logging (every RAG query)
+```json
+{
+  "tenant_id": "utilities",
+  "query_hash": "sha256:...",
+  "intent": "discovery",
+  "retrieval_ms": 420,
+  "generation_ms": 2100,
+  "citation_count": 3,
+  "hallucination_check": "pass",
+  "prompt_version": "v1.2"
+}
+```
+
+### OpenTelemetry Traces
+- Ingestion pipeline: document_intake → chunking → NER → entity_resolution → embedding → kg_upsert
+- RAG query: query_analysis → graph_traversal → vector_search → context_assembly → llm_generation → validation
+
+### RAGAS Quality Thresholds
+
+| Metric | Phase 1 Minimum | Phase 2 Target |
+|---|---|---|
+| faithfulness | ≥ 0.80 (non-negotiable) | ≥ 0.88 |
+| context_precision | ≥ 0.75 | ≥ 0.85 |
+| answer_relevancy | ≥ 0.75 | ≥ 0.85 |
+| context_recall | ≥ 0.70 | ≥ 0.80 |
+
+### Alerts
+- `hallucination_rate > 5%` — PagerDuty P1
+- `retrieval_precision < 0.70` — Slack alert to ML engineer
+- `p95_latency > 10s` — Slack alert to on-call
+- `ingestion_job_failed` — Slack alert to backend engineer
+
+---
+
+## 11. Error Handling & Fallback Strategy
+
+### Component Failure Modes
+
+| Failed Component | Fallback Behavior | User Experience |
+|---|---|---|
+| Neo4j unavailable | Vector-only retrieval (no graph facts) | Warning banner: "Graph lookup unavailable — showing document results only" |
+| OpenSearch unavailable | Graph-only traversal (structured facts only) | Warning banner: "Semantic search temporarily unavailable" |
+| Claude API timeout (> 30s) | Return cached response if available (Redis, TTL 1h) | If no cache: "Response is taking longer than expected — try a shorter query" |
+| Both Neo4j + OpenSearch down | Fail fast with clear message | "Knowledge base temporarily unavailable. Please try again in a few minutes." |
+
+### Circuit Breaker
+- After 3 consecutive failures to any downstream service → open circuit for 60s
+- Logged as `circuit_breaker_open` event → Slack alert
+- Health check endpoint (`GET /api/health`) reports per-component status
+
+### Ingestion Failure Handling
+- Retry: exponential backoff, max 3 attempts (delays: 30s, 2min, 10min)
+- After 3 failures: status = `dead_letter`, surfaced in ingestion status page
+- Never silently swallow ingestion errors — every failure logged with full stack trace + document_id
+
+---
+
+## 12. Cost Estimation
+
+| Component | Phase 1 (~500 docs, ~50 queries/day) | Phase 2 (~2k docs, ~500 queries/day) |
+|---|---|---|
+| Neo4j AuraDB Professional (4GB) | ~$65/mo | ~$200/mo |
+| OpenSearch Serverless | ~$50/mo | ~$150/mo |
+| Claude Haiku — ingestion batch | ~$30 one-time (500 docs × avg 3k tokens) | ~$100/mo (new docs + re-extraction) |
+| Claude Sonnet — generation | ~$25/mo (50 queries/day × ~3k tokens avg) | ~$250/mo |
+| text-embedding-3-large | ~$5 one-time (500 docs) | ~$20/mo |
+| Redis (ElastiCache t3.micro) | ~$15/mo | ~$30/mo |
+| **Total** | **~$190/mo** | **~$750/mo** |
+
+> Token cost basis: Haiku $0.80/M input + $4/M output; Sonnet $3/M input + $15/M output; embeddings $0.13/M tokens
+
+---
+
+## 13. Data Retention & Compliance
+
+- **Document retention**: 3 years active in vector store + graph, then archived to cold storage
+- **PII detection at ingestion**: consultant names/emails flagged by NER, anonymized to initials in all vector chunks
+- **Audit log**: every query logged with `{user_id, timestamp, query_hash, tenant_id}` — 1-year retention
+- **Right to deletion**: consultant profile nodes support soft-delete (tombstone flag); embeddings for that entity purged on next maintenance window
+- **Client confidentiality**: documents tagged `clearance_level: client_confidential` never returned in cross-tenant queries; stored in isolated index partition
+- **GDPR/CCPA**: Slalom legal review required before ingesting any client-provided documents that may contain PII
+
+---
+
+## 14. CI/CD & Testing Strategy
+
+### CI Pipeline (runs on every PR)
+```
+lint (Ruff + ESLint) → type-check (mypy + tsc) → unit tests → integration tests
+```
+
+### Backend Testing
+- **Unit tests** (`pytest`): NER extraction, entity resolution, Cypher query library, context assembler
+- All Claude API calls mocked in tests — no API tokens burned in CI
+- **Integration tests**: full ingestion pipeline against local Neo4j + OpenSearch (Docker Compose)
+- **Retrieval evaluation**: RAGAS golden test set — runs weekly on `main` branch (not per-commit; LLM cost)
+
+### Frontend Testing
+- **Component tests** (`Vitest` + Testing Library): Chat UI, citation rendering, SSE streaming
+- **API client tests**: mock server validates request shapes and error handling
+
+### Golden Test Set
+- 20 utility FSM questions with expected answer characteristics (not exact strings — graded by faithfulness + relevancy)
+- Located in `tests/golden_qa_utility_fsm.json`
+- Authored and validated by Domain SME
 
 ---
 

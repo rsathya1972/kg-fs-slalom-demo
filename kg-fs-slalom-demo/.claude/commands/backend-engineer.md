@@ -33,7 +33,40 @@ You own the data infrastructure and API layer:
   (never expose raw Cypher to external callers)
 - Confidence threshold: entity matches below 0.80 go to human review queue, never auto-merged
 - All file paths stored in DB as relative paths from `UPLOAD_DIR` — never absolute
+- **Path traversal protection**: all uploaded file paths validated via `Path.resolve().is_relative_to(UPLOAD_DIR)`;
+  any path escaping UPLOAD_DIR → 400 error + security audit log entry
 - Ingestion is idempotent: re-ingesting the same document_id updates in place, does not duplicate
+- **document_id generation**: `SHA-256(tenant_id + normalized_filename + file_size_bytes)` — allows
+  re-ingestion detection without storing file content twice; documented in `ingestion/pipeline.py` docstring
+
+## HTTP Status Code Conventions
+
+Never return 200 with an error in the body. Use correct HTTP status codes:
+
+| Code | When to use |
+|---|---|
+| 200 | Successful GET / successful action with response body |
+| 201 | POST that creates a new resource |
+| 204 | DELETE success (no body) |
+| 400 | Client error — malformed request |
+| 404 | Entity not found |
+| 409 | Conflict — duplicate document_id on re-ingest when not idempotent |
+| 422 | Pydantic validation error (FastAPI default) |
+| 500 | Internal error — log full stack trace, return `{"detail": "Internal error", "error_id": "<UUID>"}` |
+
+## Pagination Conventions
+
+All list endpoints support cursor-based offset pagination:
+- Query params: `?limit=50&offset=0` (default limit=50, max=500)
+- Response shape: `{"items": [...], "total": N, "limit": 50, "offset": 0}`
+- Never return unbounded lists — always enforce limit cap server-side
+
+## Caching Strategy (Redis)
+
+- Cache expensive Neo4j named query results: TTL 5 minutes
+- Cache key format: `{tenant_id}:{query_name}:{sha256(params)}`
+- Invalidate on any write to that tenant's subgraph (upsert/delete triggers cache bust)
+- Cache Claude responses for identical query_hash within same session: TTL 1 hour (circuit breaker fallback)
 
 ## Neo4j Schema Conventions
 

@@ -1,3 +1,68 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+
+    // Python
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "python.linting.enabled": true,
+    "ruff.enable": true,
+    "ruff.organizeImports": true,
+    "mypy-type-checker.enabled": true,
+
+    // TypeScript / JavaScript
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "typescript.tsdk": "frontend/node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+
+    // Cypher (Neo4j query files)
+    "files.associations": {
+        "*.cypher": "cypher",
+        "*.cql": "cypher"
+    },
+
+    // Editor
+    "editor.rulers": [100],
+    "files.eol": "\n",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "[typescript]": {
+        "editor.tabSize": 2
+    },
+    "[typescriptreact]": {
+        "editor.tabSize": 2
+    },
+    "[json]": {
+        "editor.tabSize": 2
+    },
+
+    // Search exclusions (keep search fast)
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/.venv": true,
+        "**/venv": true,
+        "**/__pycache__": true,
+        "**/*.pyc": true,
+        "**/storage/uploads": true,
+        "**/storage/outputs": true
+    },
+
+    // File nesting (cleaner explorer)
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.ts": "${capture}.js, ${capture}.d.ts, ${capture}.test.ts",
+        "*.tsx": "${capture}.test.tsx",
+        "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, .npmrc"
+    }
 }

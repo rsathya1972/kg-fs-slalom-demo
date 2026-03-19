@@ -1,0 +1,26 @@
+{
+    "recommendations": [
+        // Python
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "ms-python.mypy-type-checker",
+        "ms-python.vscode-pylance",
+
+        // TypeScript / Frontend
+        "ms-vscode.vscode-typescript-next",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+
+        // Neo4j / Graph
+        "neo4j-extensions.neo4j-for-vscode",
+
+        // General
+        "eamodio.gitlens",
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml"
+    ]
+}

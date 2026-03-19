@@ -69,15 +69,64 @@ Never include instructions that could cause Claude to invent entities.
 ```
 Run the RAGAS evaluation suite against the golden test set in tests/golden_qa_utility_fsm.json
 Report: context_precision, context_recall, answer_relevancy, faithfulness
-Flag any question where faithfulness < 0.80 for prompt investigation
+
+Phase 1 minimum thresholds (block merge if below):
+  faithfulness       ≥ 0.80  ← non-negotiable; hallucination prevention
+  context_precision  ≥ 0.75
+  answer_relevancy   ≥ 0.75
+  context_recall     ≥ 0.70
+
+Phase 2 targets:
+  faithfulness       ≥ 0.88
+  context_precision  ≥ 0.85
+  answer_relevancy   ≥ 0.85
+  context_recall     ≥ 0.80
+
+Flag any question where faithfulness < 0.80 for prompt investigation before merging.
 ```
 
 ### Tune hybrid retrieval weights
 ```
-Graph-first signals: client name match, system vendor match, use_case exact match
-Vector-first signals: semantic similarity to query, discovery question phrasing
-Hybrid re-ranking: adjust alpha (graph weight) vs beta (vector weight) in retrieval/hybrid.py
+Default re-ranking weights (defined in retrieval/hybrid.py):
+  graph_relevance_score × 0.40
+  semantic_score        × 0.45
+  recency_weight        × 0.15
+
+Graph relevance scoring:
+  1.0  — entity exact match (client name, system vendor)
+  0.7  — same use case domain
+  0.4  — same industry only
+
+Recency weight:
+  Linear decay over 3 years: engagement from 3+ years ago gets 0.5× weight
+  Formula: max(0.5, 1.0 - (age_years / 3.0) * 0.5)
+
 Target: p95 latency < 4s for retrieval step alone (before LLM call)
+To tune: adjust weights, re-run golden test set, compare RAGAS scores before committing change.
+```
+
+### Version and A/B test a prompt
+```
+1. Decorate prompt function with @prompt_version("v1.x")
+2. Version is logged in every query's structured log output
+3. A/B test via shadow mode: run both old + new prompt, log both outputs, serve primary
+4. After 200+ queries, compare RAGAS scores on logged pairs
+5. If new prompt wins: swap primary via feature flag (no code deployment needed)
+6. Rollback: flip feature flag back to old version instantly
+```
+
+### Switching embedding models
+```
+Default: text-embedding-3-large (3072 dims, $0.13/M tokens)
+Switch to Titan Embeddings only if AWS data residency is required (1536 dims).
+
+Index rebuild procedure when switching:
+  1. Create new OpenSearch index with updated dimension (knn_vector dimension field)
+  2. Re-embed ALL chunks with new model (batch job, ~$20 for 500 docs)
+  3. Validate RAGAS scores on new index (must meet Phase thresholds)
+  4. Blue-green swap: update OPENSEARCH_INDEX env var, redeploy API
+  5. Delete old index after 1 week with no rollback needed
+Never mix chunks from different embedding models in the same index.
 ```
 
 ### Add a new prompt

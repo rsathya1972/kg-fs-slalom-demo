@@ -130,10 +130,13 @@ app/
   graph/
     page.tsx              — Knowledge graph explorer
 
-  admin/                  — Phase 2
-    page.tsx              — Admin dashboard
-    ingest/page.tsx       — Ingestion pipeline status
-    review/page.tsx       — Entity review queue
+  admin/
+    ingest/page.tsx       — Ingestion status (Phase 1e): job queue, doc counts, last-run timestamps (read-only)
+    page.tsx              — Admin dashboard (Phase 2)
+    review/page.tsx       — Entity review queue (Phase 2)
+    ontology/page.tsx     — Ontology editor (Phase 2)
+    curator/page.tsx      — KG curator UI (Phase 2)
+    feedback/page.tsx     — Feedback viewer (Phase 2)
 
 components/
   Chat/
@@ -205,21 +208,72 @@ export const api = {
 };
 ```
 
-## Streaming Responses (SSE)
+## Error Handling Pattern
 
-The chat interface supports streaming for long responses:
+All API errors must be caught and shown as user-friendly toasts — never silently swallow errors:
 
 ```typescript
-// In ChatPage component — use EventSource for SSE
-async function streamQuery(queryId: string, onChunk: (text: string) => void) {
+// lib/api.ts — structured error class
+export class ApiError extends Error {
+  constructor(
+    public status: number,
+    public detail: string,
+    public error_id?: string
+  ) {
+    super(detail);
+  }
+}
+
+// In apiFetch — throw ApiError on non-ok responses
+if (!res.ok) {
+  const body = await res.json().catch(() => ({ detail: res.statusText }));
+  throw new ApiError(res.status, body.detail ?? 'Request failed', body.error_id);
+}
+
+// In components — catch and display
+try {
+  const data = await api.query(request);
+} catch (err) {
+  if (err instanceof ApiError) {
+    if (err.status >= 500) {
+      showToast(`Service temporarily unavailable. (ID: ${err.error_id ?? 'unknown'})`, 'error');
+    } else {
+      showToast(err.detail, 'error');
+    }
+  } else {
+    showToast('Connection error — please check your network and try again.', 'error');
+  }
+}
+```
+
+## Streaming Responses (SSE)
+
+The chat interface supports streaming for long responses. Always close the EventSource on unmount:
+
+```typescript
+// In ChatPage component — use EventSource with proper cleanup
+useEffect(() => {
+  if (!queryId) return;
+
   const es = new EventSource(`${API_BASE}/query/${queryId}/stream`);
+
   es.onmessage = (e) => {
     const data = JSON.parse(e.data);
-    if (data.type === 'chunk') onChunk(data.text);
+    if (data.type === 'chunk') appendChunk(data.text);
     if (data.type === 'done') es.close();
+    if (data.type === 'error') {
+      showToast(data.message ?? 'Stream error — please retry.', 'error');
+      es.close();
+    }
   };
-  es.onerror = () => es.close();
-}
+
+  es.onerror = () => {
+    es.close(); // prevent infinite reconnect loop
+    showToast('Stream disconnected — please retry.', 'error');
+  };
+
+  return () => es.close(); // cleanup on unmount or queryId change
+}, [queryId]);
 ```
 
 ## Common Tasks
@@ -246,7 +300,10 @@ async function streamQuery(queryId: string, onChunk: (text: string) => void) {
 ### Style conventions
 ```
 Colors:
-  Primary accent:  text-teal-600 / bg-teal-600 (#00A3AD Slalom teal, approximate)
+  Primary accent:  bg-[#00A3AD] / text-[#00A3AD]  (Slalom teal exact hex — use CSS custom property)
+  Define in app/globals.css:  :root { --color-slalom: #00A3AD; }
+  Reference in Tailwind:      bg-[var(--color-slalom)] or extend tailwind.config.ts:
+    theme: { extend: { colors: { slalom: '#00A3AD' } } } → then use bg-slalom
   Background:      bg-slate-50 (page), bg-white (card)
   Text:            text-slate-900 (primary), text-slate-500 (secondary)
   Border:          border-slate-200

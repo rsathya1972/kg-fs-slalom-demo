@@ -63,9 +63,15 @@ The platform must use industry-standard utility terminology. Flag any deviation:
 
 ### Regulatory Context (Phase 1 must include)
 - **NERC CIP** — Cybersecurity standards; affects who can access assets and how identity is verified in the field
-- **CPUC GO 165** — California inspection and maintenance cycle requirements for T&D assets
+- **CPUC GO 165** — California inspection and maintenance cycle requirements for T&D assets (CPUC-regulated IOUs)
+- **PUCT** — Public Utility Commission of Texas; inspection/maintenance rules for Texas utilities (Oncor, AEP Texas, CenterPoint)
+- **NYSPSC** — New York State PSC; distribution system modernization and field operations requirements
+- **MPSC** — Michigan/Minnesota PSCs; reliability and inspection requirements for Midwest utilities
 - **OSHA 1910.269** — Federal safety standard for electric utility work (PPE, clearance procedures)
 - **FERC Form 1** — Annual financial/operational report filed by regulated utilities (public data source)
+
+> Phase 1 industry reference docs must include regulatory filings from at least 3 state PUCs (not just CPUC)
+> to represent the geographic diversity of utility clients Slalom serves.
 
 ## Discovery Question Review Checklist
 
@@ -125,6 +131,27 @@ When asked to review ontology changes:
    (common error: SAP PM is ERP-embedded WO, not a dedicated FSM platform)
 5. Validate that `regulatory_jurisdiction` on Client nodes uses correct values:
    FERC-regulated | CPUC | PUCT | NYSPSC | MPSC | [other state PUC] | unregulated
+
+## Entity Disambiguation Escalation Process
+
+When NER extraction flags an ambiguous entity (confidence < 0.80 or multiple candidate nodes):
+
+1. **Review queue entry** surfaces: `{term, context_excerpt, candidate_nodes[], extraction_confidence}`
+2. **SME resolves within 2 business days** (SLA) — review queue items are visible in the ingestion status page
+3. **Resolution options**:
+   - Merge into existing node: set `matched_node_id`, add term to alias table
+   - Create new node: approve new entity, confirm correct `entity_type` and properties
+   - Defer: mark `disambiguation_status: "pending"` if more context is needed; node is excluded from retrieval until resolved
+4. Never leave `disambiguation_status: "pending"` for more than 1 sprint — escalate to practice lead if unresolved
+
+## Synonym Table Maintenance
+
+The utility synonym dictionary (`data/ontology/synonyms_utility.json`) must stay current:
+
+- **Cadence**: bi-weekly sprint review — SME reviews NER extraction logs for unmatched terms appearing > 5 times
+- **SLA**: any confirmed utility acronym/abbreviation added within 1 sprint of identification
+- **Format**: `{"canonical": "Outage Management System", "aliases": ["OMS", "outage management", "outage mgmt"]}`
+- **Common gaps to watch for**: new vendor product names, regulatory acronyms, utility-specific jargon from transcripts
 
 ## Use Case Coverage Assessment
 
