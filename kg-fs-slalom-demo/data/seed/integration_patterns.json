@@ -1,0 +1,137 @@
+[
+  {
+    "id": "int-001",
+    "from_system": "SAP PM (Plant Maintenance)",
+    "to_system": "Esri ArcGIS Utility Network",
+    "pattern_description": "SAP PM work orders geo-coded via ArcGIS for field crew routing and asset location context. Asset IDs in SAP PM linked to GIS feature IDs enabling location-aware work order display on dispatcher map.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["SAP Integration Suite", "MuleSoft Anypoint Platform"],
+    "utility_types": ["IOU", "Muni"]
+  },
+  {
+    "id": "int-002",
+    "from_system": "GE Advanced Distribution Management System",
+    "to_system": "Oracle Utilities Work Management",
+    "pattern_description": "GE ADMS automatically generates trouble orders in Oracle Utilities Work Management upon detection of confirmed outages. Restoration confirmation events flow back from Oracle WM to update OMS outage record status.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["Oracle Integration Cloud", "MuleSoft Anypoint Platform"],
+    "utility_types": ["IOU"]
+  },
+  {
+    "id": "int-003",
+    "from_system": "Esri ArcGIS Utility Network",
+    "to_system": "Salesforce Field Service",
+    "pattern_description": "ArcGIS serves as the system of record for asset geography. Salesforce FSM pulls asset location, network connectivity, and asset attributes to provide field crew with GIS context on the mobile app. Work completion data writes back to GIS for asset record updates.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["MuleSoft Anypoint Platform", "Esri ArcGIS API"],
+    "utility_types": ["IOU", "Muni", "Co-op"]
+  },
+  {
+    "id": "int-004",
+    "from_system": "IBM Maximo Application Suite",
+    "to_system": "Esri ArcGIS Utility Network",
+    "pattern_description": "IBM Maximo EAM integrated with ArcGIS to link work orders to GIS asset features. Asset inspection work orders include GIS coordinates and network location. Completion data updates asset inspection dates in GIS.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["IBM App Connect", "MuleSoft Anypoint Platform"],
+    "utility_types": ["IOU", "Muni"]
+  },
+  {
+    "id": "int-005",
+    "from_system": "Itron AMI Platform",
+    "to_system": "GE Advanced Distribution Management System",
+    "pattern_description": "Itron AMI outage pings (last gasp messages from smart meters) are ingested by GE ADMS as outage detection signals, reducing SAIDI by accelerating confirmed outage identification before customer calls arrive.",
+    "integration_type": "unidirectional",
+    "common_middleware": ["Itron Head-End System API", "Custom middleware"],
+    "utility_types": ["IOU", "Muni"]
+  },
+  {
+    "id": "int-006",
+    "from_system": "SAP PM (Plant Maintenance)",
+    "to_system": "IBM Maximo Application Suite",
+    "pattern_description": "Migration integration pattern — utilities migrating from IBM Maximo to SAP EAM/PM synchronize work order history, asset records, and job plans during transition period. Both systems run in parallel during cutover.",
+    "integration_type": "unidirectional",
+    "common_middleware": ["SAP Integration Suite", "MuleSoft Anypoint Platform"],
+    "utility_types": ["IOU"]
+  },
+  {
+    "id": "int-007",
+    "from_system": "Salesforce Field Service",
+    "to_system": "SAP PM (Plant Maintenance)",
+    "pattern_description": "Salesforce FSM used as the scheduling and mobile dispatch layer while SAP PM remains the system of record for work orders and asset history. Work orders created in SAP PM flow to Salesforce for scheduling; completion records flow back to SAP.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["MuleSoft Anypoint Platform", "SAP Integration Suite"],
+    "utility_types": ["IOU", "Muni"]
+  },
+  {
+    "id": "int-008",
+    "from_system": "AVEVA PI System",
+    "to_system": "IBM Maximo Application Suite",
+    "pattern_description": "AVEVA PI historian monitors asset health time-series data (transformer temperatures, breaker operation counts). When thresholds are exceeded, PI triggers predictive maintenance work orders in IBM Maximo for proactive field intervention.",
+    "integration_type": "unidirectional",
+    "common_middleware": ["AVEVA PI Web API", "IBM App Connect"],
+    "utility_types": ["IOU"]
+  },
+  {
+    "id": "int-009",
+    "from_system": "GE Advanced Distribution Management System",
+    "to_system": "Salesforce Field Service",
+    "pattern_description": "GE ADMS generates outage trouble orders that are dispatched through Salesforce FSM for crew assignment and routing. SAIDI restoration timestamps written back to ADMS upon crew completion.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["MuleSoft Anypoint Platform"],
+    "utility_types": ["IOU"]
+  },
+  {
+    "id": "int-010",
+    "from_system": "Oracle Utilities Work Management",
+    "to_system": "Esri ArcGIS Utility Network",
+    "pattern_description": "Oracle Utilities WM integrated with ArcGIS for work location geo-coding and asset context. Field crew see the network map with outage polygon overlay and asset attributes pulled from ArcGIS on mobile device.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["Oracle Integration Cloud", "Esri ArcGIS API"],
+    "utility_types": ["IOU", "Muni"]
+  },
+  {
+    "id": "int-011",
+    "from_system": "Salesforce Field Service",
+    "to_system": "MuleSoft Anypoint Platform",
+    "pattern_description": "MuleSoft serves as the integration hub for Salesforce FSM, connecting it to OMS (GE ADMS or Oracle Utilities), GIS (ArcGIS), ERP (SAP or Oracle), and AMI (Itron/Landis+Gyr). Single API layer reduces point-to-point integration sprawl.",
+    "integration_type": "bidirectional",
+    "common_middleware": [],
+    "utility_types": ["IOU", "Muni"]
+  },
+  {
+    "id": "int-012",
+    "from_system": "Smallworld GIS",
+    "to_system": "SAP PM (Plant Maintenance)",
+    "pattern_description": "GE Smallworld provides the asset geography and network model; SAP PM holds the work order and maintenance history. Integration enables work orders in SAP PM to be displayed on Smallworld maps and GIS asset IDs linked to SAP equipment master records.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["SAP Integration Suite", "Custom ETL"],
+    "utility_types": ["IOU"]
+  },
+  {
+    "id": "int-013",
+    "from_system": "Landis+Gyr AMI Platform",
+    "to_system": "Milsoft Outage Management System",
+    "pattern_description": "Landis+Gyr smart meter last-gasp outage pings fed into Milsoft OMS for smaller utilities and cooperatives. Accelerates outage detection without requiring the OMS to wait for customer calls.",
+    "integration_type": "unidirectional",
+    "common_middleware": ["Landis+Gyr MDM API", "Custom middleware"],
+    "utility_types": ["Co-op", "Muni"]
+  },
+  {
+    "id": "int-014",
+    "from_system": "ServiceNow Field Service Management",
+    "to_system": "SAP PM (Plant Maintenance)",
+    "pattern_description": "ServiceNow FSM used for IT/OT convergence use cases — managing both IT infrastructure field work and physical asset maintenance in a unified platform, with work orders synchronized from SAP PM for OT assets.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["MuleSoft Anypoint Platform", "ServiceNow IntegrationHub"],
+    "utility_types": ["IOU"]
+  },
+  {
+    "id": "int-015",
+    "from_system": "IBM Maximo Application Suite",
+    "to_system": "Salesforce Field Service",
+    "pattern_description": "IBM Maximo functions as the EAM system of record for asset master data and maintenance history. Salesforce FSM provides scheduling optimization and mobile field worker capabilities. Work orders created in Maximo are scheduled and dispatched via Salesforce; completion data flows back.",
+    "integration_type": "bidirectional",
+    "common_middleware": ["MuleSoft Anypoint Platform", "IBM App Connect"],
+    "utility_types": ["IOU", "Muni"]
+  }
+]

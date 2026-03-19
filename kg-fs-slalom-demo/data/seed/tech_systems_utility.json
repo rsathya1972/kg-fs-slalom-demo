@@ -1,0 +1,302 @@
+[
+  {
+    "id": "sys-001",
+    "vendor": "SAP",
+    "product_name": "SAP PM (Plant Maintenance)",
+    "category": "ERP",
+    "utility_relevant": true,
+    "description": "Work order management module embedded within SAP ERP. Manages preventive and corrective maintenance work orders, job plans, and maintenance notifications. Common in large IOUs that already run SAP for financials and supply chain.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "Often called 'SAP FSM' by clients — incorrect. SAP PM is ERP-embedded WO management, not a full FSM. It lacks mobile-first dispatch optimization, real-time GIS routing, and modern mobile field worker apps. Most utilities using SAP PM for WO management still have a separate scheduling/dispatch gap."
+  },
+  {
+    "id": "sys-002",
+    "vendor": "Oracle",
+    "product_name": "Oracle eAM (Enterprise Asset Management)",
+    "category": "Asset Mgmt",
+    "utility_relevant": true,
+    "description": "Enterprise asset management module within Oracle E-Business Suite. Handles preventive maintenance scheduling, asset hierarchies, and maintenance history tracking for utility infrastructure.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "Oracle eAM is an ERP-embedded EAM, not a standalone FSM. It requires significant customization to serve as a field service platform and lacks modern mobile worker capabilities."
+  },
+  {
+    "id": "sys-003",
+    "vendor": "Oracle",
+    "product_name": "Oracle Utilities Work Management",
+    "category": "FSM",
+    "utility_relevant": true,
+    "description": "Purpose-built work management system for utilities (formerly SPL WorkManager). Manages trouble orders, switching orders, crew dispatch, and SAIDI/SAIFI reporting. Commonly integrated with OMS and GIS.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "Clients may confuse Oracle Utilities Work Management with Oracle Field Service (Tok Tok) — they are separate products with different architectures. Oracle Utilities WM is utility-specific; Oracle Field Service is a generic FSM acquired from TOA Technologies."
+  },
+  {
+    "id": "sys-004",
+    "vendor": "Salesforce",
+    "product_name": "Salesforce Field Service",
+    "category": "FSM",
+    "utility_relevant": true,
+    "description": "Cloud-native FSM platform (formerly Field Service Lightning / ClickSoftware integration). Provides AI-driven scheduling optimization, a mobile worker app with offline capability, and dispatcher console. Growing rapidly in utility market as utilities modernize.",
+    "common_in_utility_types": ["IOU", "Muni", "Co-op"],
+    "misconception": "Salesforce FSM is not a native utility product — it requires configuration and integration with OMS, GIS (ArcGIS), and billing systems to serve utility-specific workflows like trouble orders and regulatory reporting."
+  },
+  {
+    "id": "sys-005",
+    "vendor": "ServiceNow",
+    "product_name": "ServiceNow Field Service Management",
+    "category": "FSM",
+    "utility_relevant": true,
+    "description": "Field service management module within the ServiceNow Now Platform. Strong for planned maintenance and contractor management use cases. Growing in utilities for IT/OT convergence scenarios.",
+    "common_in_utility_types": ["IOU"],
+    "misconception": "ServiceNow FSM was historically IT service management — its utility-specific features (trouble order workflows, ADMS/OMS integration) are still maturing compared to purpose-built utility FSM platforms."
+  },
+  {
+    "id": "sys-006",
+    "vendor": "IFS",
+    "product_name": "IFS Field Service Management",
+    "category": "FSM",
+    "utility_relevant": true,
+    "description": "Enterprise FSM platform from IFS (Industrial and Financial Systems). Strong for complex asset-intensive industries including utilities. Offers scheduling optimization, mobile, and EAM in a single platform.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "IFS is strong in Scandinavia and Europe but less common in North American utilities than Salesforce FSM or Oracle. May have longer implementation timelines due to complexity."
+  },
+  {
+    "id": "sys-007",
+    "vendor": "Salesforce",
+    "product_name": "ClickSoftware",
+    "category": "FSM",
+    "utility_relevant": true,
+    "description": "AI-driven crew scheduling and dispatch optimization platform, acquired by Salesforce in 2019 and now integrated into Salesforce Field Service. Some utilities still run legacy ClickSchedule on-premise.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "Legacy ClickSoftware (ClickSchedule) is technically separate from Salesforce Field Service, though Salesforce is consolidating them. Utilities on legacy ClickSoftware may be evaluating migration to SFDC FSM."
+  },
+  {
+    "id": "sys-008",
+    "vendor": "Esri",
+    "product_name": "Esri ArcGIS Utility Network",
+    "category": "GIS",
+    "utility_relevant": true,
+    "description": "The industry-leading GIS platform for utilities. ArcGIS Utility Network provides a rules-based network model for electric, gas, water, and telecom distribution. Integrates with FSM, OMS, and ADMS.",
+    "common_in_utility_types": ["IOU", "Muni", "Co-op"],
+    "misconception": "ArcGIS is a GIS platform, not an FSM or OMS. It stores the network model and asset geography but does not dispatch crews or manage work orders natively."
+  },
+  {
+    "id": "sys-009",
+    "vendor": "GE Vernova",
+    "product_name": "Smallworld GIS",
+    "category": "GIS",
+    "utility_relevant": true,
+    "description": "Network asset management GIS platform from GE Vernova. Used by large IOUs for managing T&D asset records, network connectivity models, and work location data. Older install base than Esri.",
+    "common_in_utility_types": ["IOU"],
+    "misconception": "Smallworld has a large installed base among older, large utilities but is perceived as legacy compared to Esri ArcGIS. Many Smallworld utilities are actively evaluating GIS migration to ArcGIS Utility Network."
+  },
+  {
+    "id": "sys-010",
+    "vendor": "GE Vernova",
+    "product_name": "GE Advanced Distribution Management System",
+    "category": "ADMS",
+    "utility_relevant": true,
+    "description": "Enterprise-class ADMS that combines OMS, DMS, and SCADA. Provides real-time distribution network modeling, fault isolation, and restoration optimization. Market leader in large IOU segment.",
+    "common_in_utility_types": ["IOU"],
+    "misconception": "GE ADMS is an ADMS/OMS — it manages the distribution network in real time but does not manage field crew scheduling or work orders directly. FSM integration is required for crew dispatch."
+  },
+  {
+    "id": "sys-011",
+    "vendor": "Schneider Electric",
+    "product_name": "Schneider Electric ADMS",
+    "category": "ADMS",
+    "utility_relevant": true,
+    "description": "Advanced Distribution Management System from Schneider Electric (formerly Telvent). Competitive with GE ADMS in the IOU market. Includes OMS, DMS, and SCADA capabilities.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "Schneider ADMS, like GE ADMS, requires FSM integration for crew dispatch — it is not a field service management platform."
+  },
+  {
+    "id": "sys-012",
+    "vendor": "Milsoft",
+    "product_name": "Milsoft Outage Management System",
+    "category": "OMS",
+    "utility_relevant": true,
+    "description": "Outage management system targeted at smaller utilities and electric cooperatives. More affordable than GE/Schneider ADMS. Integrates with Esri GIS for outage visualization.",
+    "common_in_utility_types": ["Co-op", "Muni"],
+    "misconception": "Milsoft OMS is purpose-built for smaller utilities. It lacks the full ADMS capabilities (real-time DMS, SCADA) of GE or Schneider. Not a field service management system."
+  },
+  {
+    "id": "sys-013",
+    "vendor": "IBM",
+    "product_name": "IBM Maximo Application Suite",
+    "category": "Asset Mgmt",
+    "utility_relevant": true,
+    "description": "Enterprise asset management platform. Widely used in utilities for T&D asset lifecycle management, preventive maintenance, and work order tracking. SaaS version is Maximo Application Suite (MAS).",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "IBM Maximo is an EAM, not a full FSM. It manages asset records and generates work orders but lacks modern mobile-first dispatch optimization and real-time GIS routing."
+  },
+  {
+    "id": "sys-014",
+    "vendor": "SAP",
+    "product_name": "SAP Enterprise Asset Management",
+    "category": "Asset Mgmt",
+    "utility_relevant": true,
+    "description": "SAP's dedicated EAM solution built on SAP S/4HANA. More modern than SAP PM with better cloud integration. Manages complex asset hierarchies and maintenance strategies for utility T&D infrastructure.",
+    "common_in_utility_types": ["IOU"],
+    "misconception": "SAP EAM is distinct from SAP PM (Plant Maintenance) — it is the newer S/4HANA-based solution. Utilities on legacy SAP PM are evaluating EAM migration as part of S/4HANA transformations."
+  },
+  {
+    "id": "sys-015",
+    "vendor": "Infor",
+    "product_name": "Infor EAM",
+    "category": "Asset Mgmt",
+    "utility_relevant": true,
+    "description": "Enterprise asset management platform from Infor. Used by mid-size utilities and water/wastewater utilities for asset lifecycle management. Cloud-native on AWS.",
+    "common_in_utility_types": ["Muni", "Co-op"],
+    "misconception": "Infor EAM is less common in large IOU electric utilities than IBM Maximo or SAP EAM, but has a stronger presence in water/wastewater utilities."
+  },
+  {
+    "id": "sys-016",
+    "vendor": "ABB",
+    "product_name": "ABB Asset Suite",
+    "category": "Asset Mgmt",
+    "utility_relevant": true,
+    "description": "Asset performance management suite from ABB Group (formerly Ventyx). Includes work management, materials management, and asset health modules for T&D utilities.",
+    "common_in_utility_types": ["IOU"],
+    "misconception": "ABB Asset Suite is less widely deployed than IBM Maximo or SAP EAM but has a dedicated customer base among nuclear and large generation utilities."
+  },
+  {
+    "id": "sys-017",
+    "vendor": "Trimble",
+    "product_name": "Trimble Unity",
+    "category": "GIS",
+    "utility_relevant": true,
+    "description": "Utility-focused GIS and asset management platform from Trimble (formerly Cityworks / Trimble Utility). Strong in smaller electric utilities and water utilities for network asset records.",
+    "common_in_utility_types": ["Muni", "Co-op"],
+    "misconception": "Trimble Unity competes with Esri and Smallworld in the utility GIS market but is more common in smaller utilities. It is not a full FSM or work management system."
+  },
+  {
+    "id": "sys-018",
+    "vendor": "Bentley Systems",
+    "product_name": "Bentley AssetWise",
+    "category": "Asset Mgmt",
+    "utility_relevant": true,
+    "description": "Asset lifecycle information management (ALIM) platform from Bentley Systems. Used in large T&D capital projects for engineering document management and asset handover to operations.",
+    "common_in_utility_types": ["IOU"],
+    "misconception": "Bentley AssetWise is primarily a capital project / construction asset management tool — it is not typically used for ongoing field service work order management."
+  },
+  {
+    "id": "sys-019",
+    "vendor": "Salesforce / ServiceMax",
+    "product_name": "ServiceMax",
+    "category": "FSM",
+    "utility_relevant": true,
+    "description": "Asset-centric field service management platform, now a Salesforce company. Strong for complex asset maintenance use cases. Native Salesforce Platform integration.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "ServiceMax was acquired by Salesforce — customers should understand the long-term product roadmap convergence with Salesforce Field Service. Utilities evaluating ServiceMax should assess whether Salesforce FSM is a better long-term fit."
+  },
+  {
+    "id": "sys-020",
+    "vendor": "Salesforce",
+    "product_name": "Salesforce Field Service Mobile",
+    "category": "Mobile",
+    "utility_relevant": true,
+    "description": "Native iOS/Android mobile application for Salesforce Field Service. Provides offline-capable work order management, barcode scanning, and digital forms for field technicians.",
+    "common_in_utility_types": ["IOU", "Muni", "Co-op"],
+    "misconception": "Salesforce Field Service Mobile requires Salesforce Field Service licenses and proper offline data configuration. Out-of-box offline capability does not automatically cover all utility-specific data sets."
+  },
+  {
+    "id": "sys-021",
+    "vendor": "AVEVA (formerly OSIsoft)",
+    "product_name": "AVEVA PI System",
+    "category": "SCADA",
+    "utility_relevant": true,
+    "description": "Industry-standard operational data historian. Collects and stores time-series operational data from SCADA, AMI, and sensors. Used in utilities for asset health monitoring and condition-based maintenance triggers.",
+    "common_in_utility_types": ["IOU"],
+    "misconception": "AVEVA PI is a data historian / OT data platform — it is not a SCADA, FSM, or EAM system. Its value is as an integration point: PI data can trigger FSM work orders based on asset health thresholds."
+  },
+  {
+    "id": "sys-022",
+    "vendor": "Honeywell",
+    "product_name": "Honeywell Experion PKS",
+    "category": "SCADA",
+    "utility_relevant": true,
+    "description": "Process control and SCADA platform from Honeywell. Used in gas distribution, generation, and some electric utilities for real-time operational monitoring and control.",
+    "common_in_utility_types": ["IOU"],
+    "misconception": "Honeywell Experion is an OT/SCADA system — FSM integration requires middleware to translate SCADA alarms into FSM work order creation events."
+  },
+  {
+    "id": "sys-023",
+    "vendor": "MuleSoft",
+    "product_name": "MuleSoft Anypoint Platform",
+    "category": "Integration",
+    "utility_relevant": true,
+    "description": "Enterprise integration platform (iPaaS) for API management and system integration. Commonly used in utilities to integrate FSM with OMS, GIS, ERP, and AMI systems.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "MuleSoft is a middleware/integration platform — it connects systems but does not provide FSM, GIS, or OMS functionality itself."
+  },
+  {
+    "id": "sys-024",
+    "vendor": "SAP",
+    "product_name": "SAP Integration Suite",
+    "category": "Integration",
+    "utility_relevant": true,
+    "description": "SAP's cloud integration platform (formerly SAP Cloud Platform Integration / CPI). Used by SAP-centric utilities to integrate SAP PM/EAM with non-SAP FSM and GIS systems.",
+    "common_in_utility_types": ["IOU"],
+    "misconception": "SAP Integration Suite is a middleware platform — it is only relevant as an integration layer for utilities running SAP as their core ERP."
+  },
+  {
+    "id": "sys-025",
+    "vendor": "Oracle",
+    "product_name": "Oracle Integration Cloud",
+    "category": "Integration",
+    "utility_relevant": true,
+    "description": "Oracle's cloud integration platform for connecting Oracle and non-Oracle systems. Used in utilities running Oracle Utilities suite to integrate with GIS, FSM, and billing.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "Oracle Integration Cloud is middleware — relevant primarily for Oracle-centric utilities. Not a stand-alone FSM or utility operations platform."
+  },
+  {
+    "id": "sys-026",
+    "vendor": "Oracle",
+    "product_name": "Oracle Field Service (formerly TOA Technologies)",
+    "category": "FSM",
+    "utility_relevant": true,
+    "description": "AI-driven field service platform acquired by Oracle. Provides predictive travel time estimation, crew routing, and mobile work management. Used in telecom and some utility markets.",
+    "common_in_utility_types": ["Muni", "IOU"],
+    "misconception": "Oracle Field Service (OFS) is often confused with Oracle Utilities Work Management — they are separate products. OFS is a generic FSM; Oracle Utilities WM is utility-specific with OMS/SAIDI integration."
+  },
+  {
+    "id": "sys-027",
+    "vendor": "Schneider Electric",
+    "product_name": "Geo SCADA Expert (ClearSCADA)",
+    "category": "SCADA",
+    "utility_relevant": true,
+    "description": "SCADA platform from Schneider Electric, formerly ClearSCADA. Used by gas distribution, water, and electric utilities for remote monitoring and control of field devices.",
+    "common_in_utility_types": ["Muni", "Co-op"],
+    "misconception": "Geo SCADA is a SCADA platform — FSM integration is needed to translate SCADA alarm events into actionable field work orders."
+  },
+  {
+    "id": "sys-028",
+    "vendor": "Itron",
+    "product_name": "Itron AMI Platform",
+    "category": "AMI",
+    "utility_relevant": true,
+    "description": "Advanced Metering Infrastructure platform including smart meters, network head-end, and Meter Data Management System (MDMS). Outage detection signals from AMI can auto-generate FSM work orders.",
+    "common_in_utility_types": ["IOU", "Muni", "Co-op"],
+    "misconception": "Itron AMI is a metering system — it is not an FSM or OMS. Its value in the FSM context is as an outage signal source and meter-related work order trigger."
+  },
+  {
+    "id": "sys-029",
+    "vendor": "Landis+Gyr",
+    "product_name": "Landis+Gyr AMI Platform",
+    "category": "AMI",
+    "utility_relevant": true,
+    "description": "Advanced metering infrastructure platform competing with Itron. Provides smart meter data, outage detection, and remote connect/disconnect capabilities integrated with OMS and billing.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "Like Itron, Landis+Gyr AMI is a metering platform — FSM integration is needed to act on AMI-generated outage or equipment alerts."
+  },
+  {
+    "id": "sys-030",
+    "vendor": "Bentley Systems",
+    "product_name": "Bentley OpenUtilities",
+    "category": "GIS",
+    "utility_relevant": true,
+    "description": "Utility network design and asset management platform from Bentley Systems. Used for electric distribution and gas distribution network design, primarily as a design tool complementing an operational GIS.",
+    "common_in_utility_types": ["IOU", "Muni"],
+    "misconception": "Bentley OpenUtilities is a design and engineering tool — it is not typically the operational GIS used for FSM work location or crew routing."
+  }
+]

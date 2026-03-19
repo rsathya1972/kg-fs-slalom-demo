@@ -1,0 +1,284 @@
+[
+  {
+    "id": "dq-001",
+    "text": "What application generates and manages your work orders today?",
+    "category": "technical",
+    "sequence_order": 1,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "SAP PM (within our ERP)",
+        "implication": "Data migration complexity high; mobile gap likely; scheduling optimization gap almost certain",
+        "leads_to": "dq-010",
+        "follow_up_note": "Ask about SAP version and whether they have a separate scheduling tool"
+      },
+      {
+        "answer_text": "IBM Maximo",
+        "implication": "EAM-centric — likely missing mobile-first dispatch optimization; assess Maximo version (on-prem vs. MAS)",
+        "leads_to": "dq-011",
+        "follow_up_note": "Ask about Maximo version and mobile field worker app currently in use"
+      },
+      {
+        "answer_text": "Oracle Utilities Work Management",
+        "implication": "Utility-native WM — assess integration with OMS and GIS; check if upgrade to cloud version is planned",
+        "leads_to": "dq-002",
+        "follow_up_note": "Ask about OMS integration and whether crew scheduling is separate"
+      },
+      {
+        "answer_text": "We use spreadsheets / manual dispatch",
+        "implication": "Greenfield opportunity — high urgency; operational risk is high; strong ROI case for modern FSM",
+        "leads_to": "dq-002",
+        "follow_up_note": "Understand scale: how many work orders per day, crew size"
+      },
+      {
+        "answer_text": "Salesforce Field Service or ClickSoftware",
+        "implication": "Modern FSM already in place — focus on optimization, GIS integration depth, and utilization",
+        "leads_to": "dq-003",
+        "follow_up_note": "Ask about pain points with current implementation"
+      }
+    ]
+  },
+  {
+    "id": "dq-002",
+    "text": "How do you currently schedule and dispatch field crews to work orders?",
+    "category": "process",
+    "sequence_order": 2,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "Dispatchers manually assign work orders in the morning",
+        "implication": "Major scheduling optimization opportunity; likely high idle time and inefficient routing",
+        "leads_to": "dq-003",
+        "follow_up_note": "Ask about dispatcher-to-crew ratio and average drive time"
+      },
+      {
+        "answer_text": "We have an automated scheduling engine (ClickSoftware, etc.)",
+        "implication": "Scheduling baseline exists — focus on optimization quality, real-time re-routing, and GIS integration depth",
+        "leads_to": "dq-004",
+        "follow_up_note": "Ask about override rate (how often dispatchers manually override the algorithm)"
+      },
+      {
+        "answer_text": "Field supervisors self-assign from a shared queue",
+        "implication": "Decentralized dispatch — inconsistent prioritization, likely SLA risk on priority work",
+        "leads_to": "dq-005",
+        "follow_up_note": "Ask about SAIDI impact of delayed priority work"
+      }
+    ]
+  },
+  {
+    "id": "dq-003",
+    "text": "What mobile application do your field technicians use today to receive and complete work orders?",
+    "category": "technical",
+    "sequence_order": 3,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "They call dispatch or use radio",
+        "implication": "No mobile FSM app — significant productivity gap; strong ROI opportunity for mobile deployment",
+        "leads_to": "dq-006",
+        "follow_up_note": "Ask about proportion of crews with smartphones and connectivity coverage in service territory"
+      },
+      {
+        "answer_text": "Custom-built in-house mobile app",
+        "implication": "High technical debt risk; ask about iOS/Android split, offline capability, and maintenance burden",
+        "leads_to": "dq-006",
+        "follow_up_note": "Understand who maintains the app and what the development backlog looks like"
+      },
+      {
+        "answer_text": "Salesforce Field Service mobile / ServiceMax",
+        "implication": "Modern mobile baseline — assess offline capability gaps, GIS data available offline, safety form completeness",
+        "leads_to": "dq-007",
+        "follow_up_note": "Ask about offline mode usage and most common pain points"
+      },
+      {
+        "answer_text": "Rugged device with legacy Windows app",
+        "implication": "Aging mobile platform — likely EOL risk; user adoption will be key challenge in any replacement",
+        "leads_to": "dq-006",
+        "follow_up_note": "Ask about device refresh cycle and user sentiment toward mobile tools"
+      }
+    ]
+  },
+  {
+    "id": "dq-004",
+    "text": "How is your FSM integrated with your GIS system today?",
+    "category": "technical",
+    "sequence_order": 4,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "No GIS integration — crews look up asset locations separately",
+        "implication": "Major GIS integration gap — crews lack asset context in the field; routing inefficiency; asset record accuracy risk after field work",
+        "leads_to": "dq-008",
+        "follow_up_note": "Ask which GIS platform they use and whether they have ArcGIS or Smallworld"
+      },
+      {
+        "answer_text": "Partial integration — GIS shows work location but no asset hierarchy",
+        "implication": "Partial integration — assess gap between work location visibility and full asset context (drawings, history, network model)",
+        "leads_to": "dq-008",
+        "follow_up_note": "Ask whether crews can see upstream network topology for outage isolation"
+      },
+      {
+        "answer_text": "Tight bidirectional integration with ArcGIS",
+        "implication": "GIS integration is mature — focus shifts to advanced use cases: offline GIS data on mobile, outage polygon display, predictive routing",
+        "leads_to": "dq-009",
+        "follow_up_note": "Ask about GIS write-back quality after field work completion"
+      }
+    ]
+  },
+  {
+    "id": "dq-005",
+    "text": "Do your field technicians work in areas where cellular connectivity is unreliable or unavailable?",
+    "category": "technical",
+    "sequence_order": 5,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "Yes — significant portions of our territory have poor or no coverage",
+        "implication": "Offline mobile capability is a must-have, not a nice-to-have. Assess which FSM platforms support full offline WO lifecycle.",
+        "leads_to": null,
+        "follow_up_note": "Ask about specific geography (rural, underground, substations) and what data crews need offline"
+      },
+      {
+        "answer_text": "Mostly covered — occasional dead zones",
+        "implication": "Offline capability important but not blocking. Assess what data is needed in dead zones (asset drawings, safety plans).",
+        "leads_to": null,
+        "follow_up_note": "Ask about crew behavior when they lose connectivity mid-work-order"
+      },
+      {
+        "answer_text": "Full coverage — FirstNet/LTE across our territory",
+        "implication": "Connectivity not a constraint — focus on app performance and data synchronization speed rather than offline architecture",
+        "leads_to": null,
+        "follow_up_note": "Verify coverage extends to underground and substation environments"
+      }
+    ]
+  },
+  {
+    "id": "dq-006",
+    "text": "How do you manage third-party contractor crews in your field service workflow today?",
+    "category": "process",
+    "sequence_order": 6,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "Contractors are managed outside our FSM — separate spreadsheet or portal",
+        "implication": "Contractor visibility gap — no real-time status on contractor work; billing reconciliation is manual; compliance risk",
+        "leads_to": null,
+        "follow_up_note": "Ask what percentage of field work volume is contractor-executed and the primary work types"
+      },
+      {
+        "answer_text": "Contractors use the same FSM system as our employees",
+        "implication": "Contractor integration is mature — assess data segregation, credential management, and performance reporting",
+        "leads_to": null,
+        "follow_up_note": "Ask how contractor user licenses are managed and whether NERC CIP access is restricted"
+      },
+      {
+        "answer_text": "We manage through contractor-owned apps and send paper work orders",
+        "implication": "No digital integration with contractors — significant efficiency and compliance gap; storm surge management risk",
+        "leads_to": null,
+        "follow_up_note": "Ask about contractor volume during storm events and reconciliation process"
+      }
+    ]
+  },
+  {
+    "id": "dq-007",
+    "text": "How do you track and report your SAIDI and SAIFI reliability performance, and where does the data originate?",
+    "category": "strategic",
+    "sequence_order": 7,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "We pull outage data from our OMS and calculate SAIDI/SAIFI in a data warehouse or spreadsheet",
+        "implication": "Manual SAIDI reporting process — assess data latency, accuracy risk, and regulatory reporting burden",
+        "leads_to": null,
+        "follow_up_note": "Ask about Major Event Day identification process and how FSM data is reconciled with OMS outage records"
+      },
+      {
+        "answer_text": "Our OMS calculates SAIDI/SAIFI automatically and feeds our regulatory reporting tool",
+        "implication": "Automated reliability reporting — assess whether FSM event data (restoration timestamps) feeds cleanly into OMS",
+        "leads_to": null,
+        "follow_up_note": "Ask about the FSM-to-OMS data latency for restoration confirmations"
+      },
+      {
+        "answer_text": "We are not sure — different departments own different parts of the data",
+        "implication": "Data governance gap for regulatory reporting — significant compliance risk; opportunity for FSM-OMS integration to create single source of truth",
+        "leads_to": null,
+        "follow_up_note": "Understand who is accountable to the state PUC for reliability reporting"
+      }
+    ]
+  },
+  {
+    "id": "dq-008",
+    "text": "Are your field crews subject to NERC CIP access control requirements, and how is that enforced in your field workflows?",
+    "category": "strategic",
+    "sequence_order": 8,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "Yes — we have critical cyber assets and physical access requirements under NERC CIP-006",
+        "implication": "NERC CIP compliance adds significant complexity to FSM work order authorization and contractor management. FSM must support CIP access logging.",
+        "leads_to": null,
+        "follow_up_note": "Ask how work authorization to CIP-protected substations is currently tracked and whether the FSM captures access logs"
+      },
+      {
+        "answer_text": "We are a distribution-only utility — NERC CIP does not apply to us",
+        "implication": "NERC CIP not a constraint — simplifies contractor management and field access workflow design",
+        "leads_to": null,
+        "follow_up_note": "Verify whether any shared infrastructure with a CIP-covered transmission entity creates indirect requirements"
+      }
+    ]
+  },
+  {
+    "id": "dq-009",
+    "text": "Do you have AMI (smart meters) deployed, and are outage notifications from smart meters integrated into your work order process?",
+    "category": "technical",
+    "sequence_order": 9,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "Yes — AMI deployed and outage pings automatically create trouble orders in our OMS",
+        "implication": "AMI-to-OMS-to-FSM pipeline exists — assess latency, false positive rate, and whether FSM dispatches based on AMI-generated trouble orders without dispatcher review",
+        "leads_to": null,
+        "follow_up_note": "Ask about false positive rate and whether dispatchers review AMI-generated trouble orders before dispatching crew"
+      },
+      {
+        "answer_text": "AMI deployed but not connected to our OMS or work order system",
+        "implication": "Significant integration gap — AMI data available but not actionable. Major opportunity to reduce SAIDI through faster outage detection-to-dispatch",
+        "leads_to": null,
+        "follow_up_note": "Ask about the roadmap for AMI-OMS integration and who owns the project"
+      },
+      {
+        "answer_text": "No AMI — we still use analog meters",
+        "implication": "Outage detection dependent on customer calls — SAIDI impact significant; AMI roadmap is likely on the agenda",
+        "leads_to": null,
+        "follow_up_note": "Ask about AMI plans and CPUC/state PUC requirements for smart meter deployment"
+      }
+    ]
+  },
+  {
+    "id": "dq-010",
+    "text": "How are outage response work orders created and routed to field crews during a storm event?",
+    "category": "process",
+    "sequence_order": 10,
+    "use_case_ids": [],
+    "likely_answers": [
+      {
+        "answer_text": "OMS automatically creates trouble orders and dispatches to available crews via our FSM",
+        "implication": "Integrated outage response pipeline — assess how mutual aid crew management works and whether contractor crews are included in the dispatch pool during storms",
+        "leads_to": null,
+        "follow_up_note": "Ask about storm crew surge capacity and how mutual aid agreements are operationalized in the FSM"
+      },
+      {
+        "answer_text": "Dispatchers manually create trouble orders based on OMS alarm dashboard",
+        "implication": "Manual outage response workflow — significant SAIDI risk during high-volume storm events; dispatcher overload is a known failure mode",
+        "leads_to": null,
+        "follow_up_note": "Ask about the worst storm experience: how many trouble orders were created in a single shift and how many dispatchers were working"
+      },
+      {
+        "answer_text": "We don't have an OMS — outage response is driven by customer calls",
+        "implication": "No OMS — highest SAIDI risk profile; outage detection latency directly inflates SAIDI; OMS and FSM are joint priorities",
+        "leads_to": null,
+        "follow_up_note": "Ask about average time from customer call to crew dispatch and how customer outage maps are maintained"
+      }
+    ]
+  }
+]

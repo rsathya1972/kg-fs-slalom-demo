@@ -1,0 +1,274 @@
+{
+  "domain": "Field Service Management",
+  "version": "1.0.0",
+  "description": "Hierarchical taxonomy of FSM use cases relevant to electric/gas/water utilities",
+  "sub_domains": [
+    {
+      "name": "Work Order Lifecycle Management",
+      "description": "End-to-end management of field work orders from creation through completion and billing",
+      "priority": "critical",
+      "sub_topics": [
+        {
+          "name": "Work Order Creation",
+          "description": "Generating work orders from multiple sources: customer calls, AMI alerts, SCADA alarms, scheduled maintenance",
+          "related_systems": ["SAP PM", "Oracle Utilities Work Management", "Salesforce FSM", "IBM Maximo"]
+        },
+        {
+          "name": "Crew Dispatch",
+          "description": "Assignment of work orders to available crews based on skill, location, and priority",
+          "related_systems": ["ClickSoftware", "Salesforce Field Service", "IFS FSM"]
+        },
+        {
+          "name": "Work Order Completion",
+          "description": "Field confirmation, job notes capture, and closure workflows with photo/document attachment",
+          "related_systems": ["Salesforce Field Service", "ServiceMax", "ServiceNow FSM"]
+        },
+        {
+          "name": "SLA Tracking",
+          "description": "Monitoring adherence to regulatory response time commitments (SAIDI/SAIFI targets, GO 165 deadlines)",
+          "related_systems": ["Salesforce FSM", "ServiceNow FSM", "Oracle Utilities Work Management"]
+        },
+        {
+          "name": "Work Order Prioritization",
+          "description": "Dynamic re-prioritization based on outage impact, customer class, and regulatory reporting requirements",
+          "related_systems": ["ClickSoftware", "IFS FSM", "Salesforce Field Service"]
+        }
+      ]
+    },
+    {
+      "name": "Crew Scheduling and Dispatch Optimization",
+      "description": "AI/ML-driven optimization of crew schedules to minimize drive time, maximize utilization, and honor SLAs",
+      "priority": "high",
+      "sub_topics": [
+        {
+          "name": "Automated Scheduling",
+          "description": "Rule-based and ML-driven automatic scheduling of field work to available crews",
+          "related_systems": ["ClickSoftware", "Salesforce Field Service", "IFS FSM"]
+        },
+        {
+          "name": "Dynamic Re-routing",
+          "description": "Real-time re-assignment of crews during the day based on new priority work, cancellations, or crew delays",
+          "related_systems": ["ClickSoftware", "Salesforce Field Service Lightning"]
+        },
+        {
+          "name": "Crew Skill Matching",
+          "description": "Matching work order skill requirements (e.g., line voltage level, NERC CIP access) to certified crew",
+          "related_systems": ["Salesforce Field Service", "ServiceNow FSM", "IFS FSM"]
+        },
+        {
+          "name": "Travel Time Optimization",
+          "description": "Minimizing drive time using GIS-aware routing and traffic data integration",
+          "related_systems": ["Esri ArcGIS", "Salesforce Field Service", "ClickSoftware"]
+        }
+      ]
+    },
+    {
+      "name": "Mobile Field Worker Application",
+      "description": "Mobile app capabilities for field crew to receive, complete, and document work orders in the field",
+      "priority": "critical",
+      "sub_topics": [
+        {
+          "name": "Offline Capability",
+          "description": "Full work order access and completion when crew is in areas with no cellular coverage",
+          "related_systems": ["Salesforce Field Service Mobile", "ServiceMax", "IFS FSM"]
+        },
+        {
+          "name": "Asset Context",
+          "description": "Displaying relevant asset history, drawings, and GIS location data on the technician's mobile device",
+          "related_systems": ["Esri ArcGIS", "Salesforce Field Service Mobile", "Trimble Unity"]
+        },
+        {
+          "name": "Safety Compliance",
+          "description": "Digital safety tailboard, JSA (Job Safety Analysis), and LOTO (Lock Out Tag Out) workflow enforcement in the mobile app",
+          "related_systems": ["Salesforce Field Service", "ServiceMax"]
+        },
+        {
+          "name": "Photo and Document Capture",
+          "description": "Field capture of completion photos, meter readings, and customer signatures on mobile devices",
+          "related_systems": ["Salesforce Field Service Mobile", "ServiceNow FSM", "ServiceMax"]
+        }
+      ]
+    },
+    {
+      "name": "Asset Inspection and Maintenance",
+      "description": "Planned and predictive maintenance workflows for T&D infrastructure assets",
+      "priority": "high",
+      "sub_topics": [
+        {
+          "name": "Preventive Maintenance Scheduling",
+          "description": "Generating work orders on fixed intervals or usage-based triggers for equipment PM",
+          "related_systems": ["IBM Maximo", "SAP PM", "SAP EAM", "Infor EAM", "Oracle eAM"]
+        },
+        {
+          "name": "Inspection Route Optimization",
+          "description": "Optimizing field inspection routes for pole inspections, substation checks, and line patrols per GO 165 cycles",
+          "related_systems": ["Esri ArcGIS", "Trimble Unity", "Salesforce Field Service"]
+        },
+        {
+          "name": "Condition-Based Maintenance",
+          "description": "Using sensor data (PI historian, AMI) to trigger work orders based on asset health indicators",
+          "related_systems": ["OSIsoft PI System", "IBM Maximo", "SAP EAM"]
+        },
+        {
+          "name": "Defect Tracking",
+          "description": "Recording and prioritizing infrastructure defects found during inspections for corrective maintenance",
+          "related_systems": ["IBM Maximo", "Salesforce FSM", "ServiceNow FSM"]
+        }
+      ]
+    },
+    {
+      "name": "Outage Response Workflow",
+      "description": "Coordinating field response to unplanned outages from initial call through restoration",
+      "priority": "critical",
+      "sub_topics": [
+        {
+          "name": "Outage Work Order Generation",
+          "description": "Automatic creation of trouble orders from OMS-detected outage events",
+          "related_systems": ["GE ADMS", "Schneider ADMS", "Milsoft OMS", "Oracle Utilities Work Management"]
+        },
+        {
+          "name": "Storm Crew Surge Management",
+          "description": "Rapid scaling to mutual aid and contract crew during major storm events",
+          "related_systems": ["ClickSoftware", "Salesforce Field Service", "IFS FSM"]
+        },
+        {
+          "name": "Restoration Coordination",
+          "description": "Sequencing repair crews to maximize customers restored per hour during multi-outage events",
+          "related_systems": ["GE ADMS", "Milsoft OMS", "ClickSoftware"]
+        },
+        {
+          "name": "Customer Notification Integration",
+          "description": "Triggering automated customer ETR (estimated time of restoration) notifications from FSM events",
+          "related_systems": ["Salesforce FSM", "Oracle Utilities Work Management"]
+        }
+      ]
+    },
+    {
+      "name": "Third-Party Contractor Management",
+      "description": "Managing external contractor crews within the FSM platform for augmentation and specialized work",
+      "priority": "medium",
+      "sub_topics": [
+        {
+          "name": "Contractor Onboarding",
+          "description": "Digital credential, certification, and insurance verification for contract crews",
+          "related_systems": ["Salesforce FSM", "ServiceNow FSM"]
+        },
+        {
+          "name": "Contractor Work Order Assignment",
+          "description": "Extending WO assignment and completion workflows to contractor crews with data sovereignty controls",
+          "related_systems": ["Salesforce Field Service", "IFS FSM", "ServiceMax"]
+        },
+        {
+          "name": "Contractor Performance Tracking",
+          "description": "Measuring contractor SLA compliance, quality defects, and cost per task",
+          "related_systems": ["Salesforce FSM", "ServiceNow FSM", "Oracle Utilities Work Management"]
+        }
+      ]
+    },
+    {
+      "name": "GIS Integration",
+      "description": "Bidirectional integration between FSM and GIS for asset location, routing, and outage visualization",
+      "priority": "high",
+      "sub_topics": [
+        {
+          "name": "Asset Location from GIS",
+          "description": "Pulling asset geographic coordinates and network model from GIS into work order context",
+          "related_systems": ["Esri ArcGIS", "Smallworld GIS", "Trimble Unity"]
+        },
+        {
+          "name": "Field Work Geo-coding",
+          "description": "Capturing GPS coordinates of completed work and writing back to GIS asset records",
+          "related_systems": ["Esri ArcGIS", "Salesforce Field Service", "ServiceMax"]
+        },
+        {
+          "name": "Outage Polygon Visualization",
+          "description": "Displaying active outage boundaries on dispatcher and field crew maps",
+          "related_systems": ["Esri ArcGIS", "GE ADMS", "Schneider ADMS"]
+        }
+      ]
+    },
+    {
+      "name": "Parts and Materials Management",
+      "description": "Stocking, requesting, and consuming materials and parts through the field work order process",
+      "priority": "medium",
+      "sub_topics": [
+        {
+          "name": "Parts Request from Work Order",
+          "description": "Field crew requesting specific materials directly from the FSM mobile app with ERP integration",
+          "related_systems": ["SAP PM", "IBM Maximo", "Oracle eAM"]
+        },
+        {
+          "name": "Truck Stock Management",
+          "description": "Maintaining and reconciling inventory on field service vehicles",
+          "related_systems": ["IBM Maximo", "SAP EAM", "IFS FSM"]
+        },
+        {
+          "name": "Bill of Materials Integration",
+          "description": "Linking standard job plans to required BOM for accurate materials forecasting",
+          "related_systems": ["SAP PM", "IBM Maximo", "Oracle eAM"]
+        }
+      ]
+    },
+    {
+      "name": "Fleet and Vehicle Management",
+      "description": "Tracking, maintaining, and optimizing the field crew vehicle fleet",
+      "priority": "low",
+      "sub_topics": [
+        {
+          "name": "Vehicle GPS Tracking",
+          "description": "Real-time vehicle location for dispatch visibility and driver safety",
+          "related_systems": ["Salesforce Field Service", "ClickSoftware"]
+        },
+        {
+          "name": "Vehicle PM Scheduling",
+          "description": "Preventive maintenance scheduling for fleet vehicles integrated with work order system",
+          "related_systems": ["IBM Maximo", "SAP EAM", "Infor EAM"]
+        }
+      ]
+    },
+    {
+      "name": "Safety and Compliance Workflow",
+      "description": "Embedding safety procedures and regulatory compliance into the field work execution flow",
+      "priority": "high",
+      "sub_topics": [
+        {
+          "name": "Digital Safety Tailboard",
+          "description": "Pre-job safety briefing captured digitally on mobile device before work begins",
+          "related_systems": ["Salesforce Field Service", "ServiceMax", "ServiceNow FSM"]
+        },
+        {
+          "name": "NERC CIP Field Access Controls",
+          "description": "Enforcing NERC CIP-006 physical access controls through work order authorization workflows",
+          "related_systems": ["Salesforce FSM", "ServiceNow FSM", "IBM Maximo"]
+        },
+        {
+          "name": "Incident Reporting Integration",
+          "description": "Capturing near-miss and OSHA recordable incidents from field mobile app",
+          "related_systems": ["Salesforce FSM", "ServiceNow FSM"]
+        }
+      ]
+    },
+    {
+      "name": "Regulatory Reporting",
+      "description": "Generating regulatory performance reports from FSM data for CPUC, NERC, FERC, and state PUCs",
+      "priority": "high",
+      "sub_topics": [
+        {
+          "name": "SAIDI/SAIFI Reporting",
+          "description": "Calculating and reporting annual reliability indices from outage and restoration event data",
+          "related_systems": ["Oracle Utilities Work Management", "GE ADMS", "Milsoft OMS"]
+        },
+        {
+          "name": "GO 165 Compliance Reporting",
+          "description": "Tracking and reporting CPUC General Order 165 inspection cycle completion rates",
+          "related_systems": ["Salesforce FSM", "Esri ArcGIS", "IBM Maximo"]
+        },
+        {
+          "name": "Major Event Day (MED) Reporting",
+          "description": "Identifying and reporting storm events qualifying as Major Event Days per IEEE 1366 standard",
+          "related_systems": ["Oracle Utilities Work Management", "GE ADMS"]
+        }
+      ]
+    }
+  ]
+}

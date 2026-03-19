@@ -1,0 +1,277 @@
+[
+  {
+    "id": "gq-001",
+    "question": "What questions should I ask a utility SVP about their FSM platform?",
+    "expected_answer_characteristics": [
+      "asks about current WO system (SAP PM, Oracle, Maximo, etc.)",
+      "asks about integration with GIS",
+      "covers mobile field workers and offline capability",
+      "covers crew scheduling method (manual vs. automated)",
+      "asks about contractor management"
+    ],
+    "relevant_use_cases": [
+      "Work Order Lifecycle Management",
+      "Mobile Field Worker Application",
+      "Crew Scheduling and Dispatch Optimization"
+    ],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-002",
+    "question": "What systems does a large IOU typically use for work order management?",
+    "expected_answer_characteristics": [
+      "mentions SAP PM as common in IOUs",
+      "mentions Oracle Utilities Work Management",
+      "mentions IBM Maximo as an EAM option",
+      "notes that SAP PM is not a standalone FSM — it lacks scheduling optimization",
+      "references the GIS integration gap in ERP-based WO systems"
+    ],
+    "relevant_use_cases": ["Work Order Lifecycle Management"],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-003",
+    "question": "How does a utility typically integrate their OMS with their FSM for outage response?",
+    "expected_answer_characteristics": [
+      "explains that OMS detects outages and creates trouble orders",
+      "explains that trouble orders flow to FSM for crew dispatch",
+      "mentions GE ADMS or Schneider ADMS as common OMS platforms",
+      "mentions that restoration timestamps flow back to OMS from FSM",
+      "discusses middleware like MuleSoft or Oracle Integration Cloud"
+    ],
+    "relevant_use_cases": ["Outage Response Workflow"],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-004",
+    "question": "What is the difference between SAP PM and Salesforce Field Service for utilities?",
+    "expected_answer_characteristics": [
+      "clarifies SAP PM is ERP-embedded WO management, not standalone FSM",
+      "explains SAP PM lacks mobile-first dispatch optimization",
+      "explains Salesforce FSM provides AI-driven scheduling and modern mobile",
+      "notes that many utilities run SAP PM for WO but use separate scheduling tool",
+      "discusses integration pattern where SAP PM creates WOs and Salesforce schedules them"
+    ],
+    "relevant_use_cases": ["Work Order Lifecycle Management", "Crew Scheduling and Dispatch Optimization"],
+    "minimum_faithfulness": 0.85
+  },
+  {
+    "id": "gq-005",
+    "question": "Why is offline mobile capability critical for utility field workers?",
+    "expected_answer_characteristics": [
+      "explains that utility field territory often has poor cellular coverage",
+      "notes underground work, rural areas, and substation environments as dead zones",
+      "connects offline gap to risk of field worker completing work without system record",
+      "mentions Salesforce Field Service Mobile and ServiceMax as solutions",
+      "discusses what data needs to be available offline: WO details, asset context, safety plans"
+    ],
+    "relevant_use_cases": ["Mobile Field Worker Application"],
+    "minimum_faithfulness": 0.75
+  },
+  {
+    "id": "gq-006",
+    "question": "What are SAIDI, SAIFI, and CAIDI, and how do they relate to FSM?",
+    "expected_answer_characteristics": [
+      "correctly defines SAIDI as System Average Interruption Duration Index",
+      "correctly defines SAIFI as System Average Interruption Frequency Index",
+      "correctly defines CAIDI as Customer Average Interruption Duration Index",
+      "explains that FSM directly impacts SAIDI through restoration speed",
+      "explains that faster crew dispatch and mobile completion reduce outage duration"
+    ],
+    "relevant_use_cases": ["Outage Response Workflow", "Regulatory Reporting"],
+    "minimum_faithfulness": 0.90
+  },
+  {
+    "id": "gq-007",
+    "question": "How does AMI data improve utility field service operations?",
+    "expected_answer_characteristics": [
+      "explains AMI outage detection via last-gasp signals from smart meters",
+      "notes that AMI reduces time from outage occurrence to FSM trouble order creation",
+      "mentions Itron and Landis+Gyr as major AMI vendors",
+      "explains AMI-OMS-FSM integration pipeline",
+      "notes AMI can trigger predictive maintenance WOs based on meter anomalies"
+    ],
+    "relevant_use_cases": ["Outage Response Workflow", "Work Order Lifecycle Management"],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-008",
+    "question": "What is the role of GIS in utility FSM and which GIS platforms are most common?",
+    "expected_answer_characteristics": [
+      "explains GIS provides asset location and network model for work order context",
+      "mentions Esri ArcGIS as the market leader",
+      "mentions Smallworld GIS as common in older large IOUs",
+      "explains FSM-GIS integration provides crew routing and asset context on mobile",
+      "notes GIS write-back updates asset inspection records after field work"
+    ],
+    "relevant_use_cases": ["GIS Integration"],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-009",
+    "question": "What are the key differences between IOU, municipal utility, and cooperative utility types?",
+    "expected_answer_characteristics": [
+      "explains IOU is investor-owned, regulated by state PUC, largest segment",
+      "explains municipal utility is city/publicly-owned, often exempt from PUC regulation",
+      "explains cooperative is member-owned, typically rural, smaller",
+      "notes IOUs face stricter reliability reporting requirements (SAIDI/SAIFI)",
+      "notes cooperative utilities often use simpler or more affordable FSM/OMS tools"
+    ],
+    "relevant_use_cases": [],
+    "minimum_faithfulness": 0.75
+  },
+  {
+    "id": "gq-010",
+    "question": "What are the typical integration challenges when implementing Salesforce FSM at a utility?",
+    "expected_answer_characteristics": [
+      "mentions OMS integration (GE ADMS or Oracle) for trouble order creation",
+      "mentions GIS integration (ArcGIS) for asset context on mobile",
+      "mentions ERP integration (SAP PM or Oracle) for parts and work history",
+      "notes regulatory reporting integration for SAIDI/SAIFI data",
+      "discusses MuleSoft or SAP Integration Suite as common middleware options"
+    ],
+    "relevant_use_cases": ["Work Order Lifecycle Management", "GIS Integration"],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-011",
+    "question": "How does NERC CIP affect field service operations at an electric utility?",
+    "expected_answer_characteristics": [
+      "explains NERC CIP-006 governs physical access to Critical Cyber Assets",
+      "notes that work orders for CIP-protected substations require special authorization",
+      "explains that contractor field access must be logged and controlled per CIP",
+      "notes FSM must capture access authorization records for compliance",
+      "mentions that distribution-only utilities are not typically subject to NERC CIP"
+    ],
+    "relevant_use_cases": ["Safety and Compliance Workflow"],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-012",
+    "question": "What are the most common misconceptions about IBM Maximo in a utility FSM context?",
+    "expected_answer_characteristics": [
+      "clarifies that Maximo is an EAM, not a full FSM",
+      "notes Maximo generates WOs but lacks mobile-first dispatch optimization",
+      "explains scheduling and routing require a separate tool",
+      "notes Maximo Application Suite (MAS) is the cloud-native successor to on-prem Maximo",
+      "explains integration with Esri GIS is common but requires customization"
+    ],
+    "relevant_use_cases": ["Work Order Lifecycle Management", "Asset Inspection and Maintenance"],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-013",
+    "question": "How should a utility handle crew scheduling during a major storm event?",
+    "expected_answer_characteristics": [
+      "explains that storm events require rapid crew surge beyond normal capacity",
+      "mentions mutual aid crew from neighboring utilities",
+      "mentions third-party contractor crew dispatch during storms",
+      "explains dispatcher overload risk when volume spikes",
+      "discusses FSM features like priority queuing and bulk dispatch"
+    ],
+    "relevant_use_cases": ["Outage Response Workflow", "Third-Party Contractor Management"],
+    "minimum_faithfulness": 0.75
+  },
+  {
+    "id": "gq-014",
+    "question": "What is ClickSoftware and how does it relate to Salesforce Field Service?",
+    "expected_answer_characteristics": [
+      "explains ClickSoftware provided AI-driven scheduling optimization",
+      "notes Salesforce acquired ClickSoftware in 2019",
+      "explains ClickSoftware technology was integrated into Salesforce Field Service",
+      "notes some utilities still run legacy ClickSchedule on-premise",
+      "advises utilities on ClickSoftware to evaluate migration path to Salesforce FSM"
+    ],
+    "relevant_use_cases": ["Crew Scheduling and Dispatch Optimization"],
+    "minimum_faithfulness": 0.85
+  },
+  {
+    "id": "gq-015",
+    "question": "What discovery questions should I ask before recommending an FSM platform to a utility?",
+    "expected_answer_characteristics": [
+      "asks about current WO management system",
+      "asks about dispatch method (manual vs. automated)",
+      "asks about mobile app for field workers",
+      "asks about GIS platform and integration status",
+      "asks about offline capability requirements",
+      "asks about contractor management workflow",
+      "asks about regulatory requirements (SAIDI/SAIFI, NERC CIP, GO 165)"
+    ],
+    "relevant_use_cases": [
+      "Work Order Lifecycle Management",
+      "Crew Scheduling and Dispatch Optimization",
+      "Mobile Field Worker Application"
+    ],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-016",
+    "question": "What is California General Order 165 and how does it affect utility field operations?",
+    "expected_answer_characteristics": [
+      "explains GO 165 is a CPUC regulation requiring periodic infrastructure inspections",
+      "notes it requires overhead and underground electric inspection cycles",
+      "explains utilities must track and document inspection completion rates",
+      "notes non-compliance can result in regulatory penalties",
+      "explains FSM must track inspection work orders to prove GO 165 compliance"
+    ],
+    "relevant_use_cases": ["Asset Inspection and Maintenance", "Regulatory Reporting"],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-017",
+    "question": "How does a utility typically use AVEVA PI in conjunction with their asset management and FSM systems?",
+    "expected_answer_characteristics": [
+      "explains PI is a time-series OT data historian",
+      "explains PI collects sensor data from SCADA, AMI, and field devices",
+      "explains PI can trigger predictive maintenance WOs in Maximo or SAP based on thresholds",
+      "notes PI is not an FSM or EAM — it is a data historian/integration point",
+      "notes PI Web API is commonly used for integration"
+    ],
+    "relevant_use_cases": ["Asset Inspection and Maintenance"],
+    "minimum_faithfulness": 0.75
+  },
+  {
+    "id": "gq-018",
+    "question": "What integration middleware is most common for connecting FSM to OMS and GIS at large IOUs?",
+    "expected_answer_characteristics": [
+      "mentions MuleSoft as the most common integration platform",
+      "mentions SAP Integration Suite for SAP-centric utilities",
+      "mentions Oracle Integration Cloud for Oracle-centric utilities",
+      "explains middleware reduces point-to-point integration sprawl",
+      "notes MuleSoft supports API-led connectivity model"
+    ],
+    "relevant_use_cases": ["GIS Integration", "Outage Response Workflow"],
+    "minimum_faithfulness": 0.80
+  },
+  {
+    "id": "gq-019",
+    "question": "What are the most common gaps in a utility's FSM maturity model?",
+    "expected_answer_characteristics": [
+      "mentions ERP-embedded WO management without scheduling optimization",
+      "mentions lack of mobile field worker app or paper-based work completion",
+      "mentions GIS and FSM not integrated",
+      "mentions contractor crews managed outside the FSM system",
+      "mentions AMI outage signals not connected to trouble order creation"
+    ],
+    "relevant_use_cases": [
+      "Work Order Lifecycle Management",
+      "Mobile Field Worker Application",
+      "GIS Integration",
+      "Third-Party Contractor Management"
+    ],
+    "minimum_faithfulness": 0.75
+  },
+  {
+    "id": "gq-020",
+    "question": "How should Slalom differentiate its utility FSM practice from Accenture or Deloitte in a competitive proposal?",
+    "expected_answer_characteristics": [
+      "mentions deep utility domain expertise (IOU, Co-op, Muni differences)",
+      "mentions knowledge of specific systems like SAP PM, Maximo, GE ADMS",
+      "emphasizes understanding of regulatory context (NERC CIP, SAIDI/SAIFI, GO 165)",
+      "highlights delivery velocity and lower overhead vs. large SI firms",
+      "references specific past utility engagement outcomes"
+    ],
+    "relevant_use_cases": [],
+    "minimum_faithfulness": 0.70
+  }
+]

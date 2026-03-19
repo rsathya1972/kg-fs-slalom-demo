@@ -1,0 +1,258 @@
+{
+  "version": "1.0.0",
+  "description": "Slalom Field Services Intelligence Platform — Knowledge Graph Ontology Schema (JSON-LD compatible)",
+  "domain": "Utility Field Service Management",
+  "entities": {
+    "Client": {
+      "description": "A utility organization that is or was a Slalom client",
+      "properties": [
+        {"name": "id", "type": "string", "format": "UUID"},
+        {"name": "tenant_id", "type": "string"},
+        {"name": "name", "type": "string", "description": "Legal entity name or common operating name"},
+        {"name": "utility_type", "type": "string", "enum": ["IOU", "Muni", "Co-op", "Public Power", "Holding Company"]},
+        {"name": "hq_state", "type": "string", "description": "Two-letter US state abbreviation"},
+        {"name": "revenue_band", "type": "string", "enum": ["<$1B", "$1B-$5B", "$5B-$20B", ">$20B"]},
+        {"name": "employee_count", "type": "integer"},
+        {"name": "notes", "type": "string"},
+        {"name": "created_at", "type": "datetime"},
+        {"name": "updated_at", "type": "datetime"}
+      ],
+      "required": ["id", "tenant_id", "name", "utility_type"]
+    },
+    "Engagement": {
+      "description": "A Slalom consulting project or engagement delivered to a Client",
+      "properties": [
+        {"name": "id", "type": "string", "format": "UUID"},
+        {"name": "tenant_id", "type": "string"},
+        {"name": "title", "type": "string"},
+        {"name": "client_id", "type": "string", "description": "FK to Client.id"},
+        {"name": "utility_type", "type": "string"},
+        {"name": "start_date", "type": "string", "format": "YYYY-MM-DD"},
+        {"name": "end_date", "type": "string", "format": "YYYY-MM-DD"},
+        {"name": "outcome_summary", "type": "string"},
+        {"name": "phase", "type": "string", "description": "Assessment | Design | Implement | Support"},
+        {"name": "status", "type": "string", "enum": ["active", "completed", "cancelled"]},
+        {"name": "created_at", "type": "datetime"},
+        {"name": "updated_at", "type": "datetime"}
+      ],
+      "required": ["id", "tenant_id", "title", "client_id"]
+    },
+    "UseCase": {
+      "description": "An FSM or utility operational use case addressed by a system or engagement",
+      "properties": [
+        {"name": "id", "type": "string"},
+        {"name": "tenant_id", "type": "string"},
+        {"name": "name", "type": "string"},
+        {"name": "sub_domain", "type": "string", "description": "Top-level FSM sub-domain category"},
+        {"name": "topic", "type": "string", "description": "Specific topic within the sub-domain"},
+        {"name": "description", "type": "string"},
+        {"name": "priority_score", "type": "float", "description": "0.0–1.0 relative frequency in utility RFPs"},
+        {"name": "created_at", "type": "datetime"},
+        {"name": "updated_at", "type": "datetime"}
+      ],
+      "required": ["id", "tenant_id", "name", "sub_domain"]
+    },
+    "TechSystem": {
+      "description": "A software platform or technology system relevant to utility FSM",
+      "properties": [
+        {"name": "id", "type": "string"},
+        {"name": "tenant_id", "type": "string"},
+        {"name": "vendor", "type": "string"},
+        {"name": "product_name", "type": "string"},
+        {"name": "category", "type": "string", "description": "See categories list"},
+        {"name": "utility_relevant", "type": "boolean"},
+        {"name": "description", "type": "string"},
+        {"name": "misconception", "type": "string", "description": "Common misunderstanding about this system in utility context"},
+        {"name": "common_in_utility_types", "type": "array", "items": {"type": "string"}},
+        {"name": "created_at", "type": "datetime"},
+        {"name": "updated_at", "type": "datetime"}
+      ],
+      "required": ["id", "tenant_id", "vendor", "product_name", "category"],
+      "categories": ["FSM", "GIS", "ADMS", "Asset Mgmt", "Mobile", "SCADA", "ERP", "OMS", "AMI", "Integration", "Custom", "Analytics"]
+    },
+    "DiscoveryQuestion": {
+      "description": "A guided discovery question for FSM sales or assessment conversations",
+      "properties": [
+        {"name": "id", "type": "string"},
+        {"name": "tenant_id", "type": "string"},
+        {"name": "text", "type": "string", "description": "The question text as asked to the client"},
+        {"name": "category", "type": "string", "enum": ["technical", "process", "strategic", "organizational"]},
+        {"name": "sequence_order", "type": "integer", "description": "Recommended question order in a discovery session"},
+        {"name": "likely_answers", "type": "string", "format": "JSON", "description": "JSON array of answer branches with implications and next questions"},
+        {"name": "created_at", "type": "datetime"},
+        {"name": "updated_at", "type": "datetime"}
+      ],
+      "required": ["id", "tenant_id", "text", "category"]
+    },
+    "Consultant": {
+      "description": "A Slalom consultant with utility or FSM domain expertise",
+      "properties": [
+        {"name": "id", "type": "string"},
+        {"name": "tenant_id", "type": "string"},
+        {"name": "name", "type": "string"},
+        {"name": "title", "type": "string"},
+        {"name": "utility_experience_years", "type": "integer"},
+        {"name": "location", "type": "string"},
+        {"name": "specializations", "type": "array", "items": {"type": "string"}},
+        {"name": "email", "type": "string"},
+        {"name": "created_at", "type": "datetime"},
+        {"name": "updated_at", "type": "datetime"}
+      ],
+      "required": ["id", "tenant_id", "name"]
+    },
+    "Artifact": {
+      "description": "A source document ingested into the platform (narrative, transcript, whitepaper, etc.)",
+      "properties": [
+        {"name": "id", "type": "string", "description": "SHA-256 document ID"},
+        {"name": "tenant_id", "type": "string"},
+        {"name": "filename", "type": "string"},
+        {"name": "doc_type", "type": "string", "enum": ["narrative", "qa_bank", "transcript", "architecture", "rfd", "industry_ref"]},
+        {"name": "chunk_count", "type": "integer"},
+        {"name": "ingested_at", "type": "datetime"},
+        {"name": "source_url", "type": "string"},
+        {"name": "created_at", "type": "datetime"}
+      ],
+      "required": ["id", "tenant_id", "filename", "doc_type"]
+    },
+    "SolutionAccelerator": {
+      "description": "A reusable Slalom accelerator, template, or pre-built component for FSM implementations",
+      "properties": [
+        {"name": "id", "type": "string"},
+        {"name": "tenant_id", "type": "string"},
+        {"name": "name", "type": "string"},
+        {"name": "description", "type": "string"},
+        {"name": "applicable_systems", "type": "array", "items": {"type": "string"}},
+        {"name": "applicable_use_cases", "type": "array", "items": {"type": "string"}},
+        {"name": "artifact_path", "type": "string"},
+        {"name": "created_at", "type": "datetime"},
+        {"name": "updated_at", "type": "datetime"}
+      ],
+      "required": ["id", "tenant_id", "name"]
+    }
+  },
+  "relationships": [
+    {
+      "from": "Client",
+      "type": "HAS_ENGAGEMENT",
+      "to": "Engagement",
+      "description": "Client is associated with a consulting engagement",
+      "properties": []
+    },
+    {
+      "from": "Client",
+      "type": "USES_SYSTEM",
+      "to": "TechSystem",
+      "description": "Client operates or has operated a technology system",
+      "properties": [
+        {"name": "confidence", "type": "float", "description": "Extraction confidence 0.0–1.0"},
+        {"name": "source_doc_id", "type": "string", "description": "SHA-256 ID of the source artifact"},
+        {"name": "tenant_id", "type": "string"}
+      ]
+    },
+    {
+      "from": "Engagement",
+      "type": "ADDRESSES",
+      "to": "UseCase",
+      "description": "Engagement addressed a specific FSM use case",
+      "properties": []
+    },
+    {
+      "from": "Engagement",
+      "type": "INVOLVES_SYSTEM",
+      "to": "TechSystem",
+      "description": "Engagement involved assessment, implementation, or migration of a tech system",
+      "properties": [
+        {"name": "involvement_type", "type": "string", "enum": ["assessment", "implementation", "migration", "integration", "training"]}
+      ]
+    },
+    {
+      "from": "Consultant",
+      "type": "LED",
+      "to": "Engagement",
+      "description": "Consultant was the lead or primary delivery consultant on an engagement",
+      "properties": [
+        {"name": "role", "type": "string"}
+      ]
+    },
+    {
+      "from": "Consultant",
+      "type": "PARTICIPATED_IN",
+      "to": "Engagement",
+      "description": "Consultant participated in an engagement in a supporting role",
+      "properties": [
+        {"name": "role", "type": "string"}
+      ]
+    },
+    {
+      "from": "Consultant",
+      "type": "EXPERT_IN",
+      "to": "TechSystem",
+      "description": "Consultant has hands-on expertise with a specific technology system",
+      "properties": [
+        {"name": "proficiency_level", "type": "string", "enum": ["familiar", "proficient", "expert", "certified"]}
+      ]
+    },
+    {
+      "from": "DiscoveryQuestion",
+      "type": "RELEVANT_TO",
+      "to": "UseCase",
+      "description": "Discovery question is relevant to uncovering information about a use case",
+      "properties": []
+    },
+    {
+      "from": "DiscoveryQuestion",
+      "type": "LEADS_TO",
+      "to": "DiscoveryQuestion",
+      "description": "An answer branch leads to a follow-up question",
+      "properties": [
+        {"name": "answer_branch", "type": "string", "description": "The answer text that triggers this follow-up"}
+      ]
+    },
+    {
+      "from": "TechSystem",
+      "type": "INTEGRATES_WITH",
+      "to": "TechSystem",
+      "description": "A common integration pattern between two systems in utility environments",
+      "properties": [
+        {"name": "pattern_description", "type": "string"},
+        {"name": "integration_type", "type": "string", "enum": ["bidirectional", "unidirectional", "event-driven", "batch"]},
+        {"name": "common_middleware", "type": "string", "format": "JSON"},
+        {"name": "utility_types", "type": "string", "format": "JSON"}
+      ]
+    },
+    {
+      "from": "Artifact",
+      "type": "MENTIONS",
+      "to": "Client",
+      "description": "A source document mentions a client organization",
+      "properties": [
+        {"name": "confidence", "type": "float"},
+        {"name": "excerpt", "type": "string"}
+      ]
+    },
+    {
+      "from": "Artifact",
+      "type": "MENTIONS",
+      "to": "TechSystem",
+      "description": "A source document mentions a technology system",
+      "properties": [
+        {"name": "confidence", "type": "float"},
+        {"name": "excerpt", "type": "string"}
+      ]
+    },
+    {
+      "from": "SolutionAccelerator",
+      "type": "ACCELERATES",
+      "to": "UseCase",
+      "description": "A solution accelerator reduces delivery time for a specific use case",
+      "properties": []
+    },
+    {
+      "from": "SolutionAccelerator",
+      "type": "BUILT_FOR",
+      "to": "TechSystem",
+      "description": "A solution accelerator is designed for a specific technology platform",
+      "properties": []
+    }
+  ]
+}
