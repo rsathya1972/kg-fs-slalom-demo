@@ -17,9 +17,15 @@ Pipeline stages (in order):
     6. upsert_kg      — merge resolved entities and relationships into Neo4j
 """
 
+import json
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
+
+from ingestion.chunker import chunk_document, detect_doc_type
+from ingestion.embedder import Embedder
+from ingestion.entity_resolver import EntityResolver
+from ingestion.ner_extractor import NERExtractor
 
 logger = logging.getLogger(__name__)
 
@@ -75,20 +81,17 @@ class IngestPipeline:
             # Stage 1: detect_format
             content = path.read_text(encoding="utf-8", errors="replace")
             await self._log_stage(job_id, "detect_format", "running")
-            from ingestion.chunker import detect_doc_type
             doc_type = detect_doc_type(filename, content)
             await self._log_stage(job_id, "detect_format", "done", {"doc_type": doc_type})
 
             # Stage 2: chunk
             await self._log_stage(job_id, "chunk", "running")
-            from ingestion.chunker import chunk_document
             chunks = chunk_document(content, doc_type)
             result["chunk_count"] = len(chunks)
             await self._log_stage(job_id, "chunk", "done", {"chunk_count": len(chunks)})
 
             # Stage 3: extract_entities
             await self._log_stage(job_id, "extract_entities", "running")
-            from ingestion.ner_extractor import NERExtractor
             extractor = NERExtractor()
             triples = await extractor.extract(chunks, doc_type, tenant_id)
             result["entity_count"] = len(triples)
@@ -96,7 +99,6 @@ class IngestPipeline:
 
             # Stage 4: resolve_entities
             await self._log_stage(job_id, "resolve_entities", "running")
-            from ingestion.entity_resolver import EntityResolver
             resolver = EntityResolver()
             resolved = []
             for triple in triples:
@@ -106,7 +108,6 @@ class IngestPipeline:
 
             # Stage 5: embed
             await self._log_stage(job_id, "embed", "running")
-            from ingestion.embedder import Embedder
             embedder = Embedder()
             await embedder.embed_chunks(chunks, job_id, tenant_id, {"doc_type": doc_type, "filename": filename})
             await self._log_stage(job_id, "embed", "done")
@@ -155,5 +156,4 @@ class IngestPipeline:
         }
         if extra:
             payload.update(extra)
-        import json
         logger.info(json.dumps(payload))

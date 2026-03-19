@@ -19,6 +19,7 @@ Phase 1a: Stub — returns empty context string.
 Phase 1c: Real assembly enabled.
 """
 
+import difflib
 import logging
 from typing import Any
 
@@ -43,13 +44,7 @@ def _overlap_ratio(a: str, b: str) -> float:
     """
     if not a or not b:
         return 0.0
-    shorter, longer = (a, b) if len(a) <= len(b) else (b, a)
-    # Count how many characters of shorter appear in longer (simple containment check)
-    if shorter in longer:
-        return 1.0
-    # Approximate: find longest common prefix length / len(shorter)
-    common = sum(1 for x, y in zip(shorter, longer) if x == y)
-    return common / len(shorter)
+    return difflib.SequenceMatcher(None, a, b).ratio()
 
 
 def deduplicate_chunks(chunks: list[dict[str, Any]]) -> list[dict[str, Any]]:

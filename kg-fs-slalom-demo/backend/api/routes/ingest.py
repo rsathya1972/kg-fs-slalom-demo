@@ -1,9 +1,8 @@
 """Ingestion API routes — document upload and job tracking."""
 
 import logging
-from typing import Any
 
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Query
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
@@ -52,16 +51,29 @@ async def ingest_document(
     )
 
 
-@router.get("/jobs", response_model=list[IngestJobStatus])
-async def list_ingest_jobs(tenant_id: str = "utilities") -> list[IngestJobStatus]:
+class PaginatedJobsResponse(BaseModel):
+    """Paginated list of ingestion jobs."""
+
+    items: list[IngestJobStatus]
+    total: int
+    limit: int
+    offset: int
+
+
+@router.get("/jobs", response_model=PaginatedJobsResponse)
+async def list_ingest_jobs(
+    tenant_id: str = "utilities",
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+) -> PaginatedJobsResponse:
     """
-    List all ingestion jobs for a tenant.
+    List all ingestion jobs for a tenant, paginated.
 
     Returns jobs in reverse chronological order.
     """
-    # Phase 1a stub
+    # Phase 1a stub — wired to SQLite in Phase 1c
     logger.info("Listing ingest jobs for tenant: %s", tenant_id)
-    return []
+    return PaginatedJobsResponse(items=[], total=0, limit=limit, offset=offset)
 
 
 @router.get("/jobs/{job_id}", response_model=IngestJobStatus)

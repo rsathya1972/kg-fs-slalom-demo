@@ -54,14 +54,23 @@ class HallucinationChecker:
 
         for entity in entity_names:
             entity_lower = entity.lower()
+            # Use word-boundary regex to avoid substring false positives ("SAP" in "SAPISAPI").
+            # Fall back to plain substring check for entities containing special chars (e.g. "SDG&E")
+            # where \b anchors don't behave reliably.
+            boundary_pattern = r"\b" + re.escape(entity_lower) + r"\b"
+            try:
+                in_response = bool(re.search(boundary_pattern, response_lower, re.IGNORECASE))
+            except re.error:
+                in_response = entity_lower in response_lower
 
-            # Check if entity appears in the response at all
-            in_response = bool(re.search(re.escape(entity_lower), response_lower))
             if not in_response:
                 continue  # Entity not mentioned — nothing to verify
 
-            # Check if entity is grounded in context
-            in_context = bool(re.search(re.escape(entity_lower), context_lower))
+            try:
+                in_context = bool(re.search(boundary_pattern, context_lower, re.IGNORECASE))
+            except re.error:
+                in_context = entity_lower in context_lower
+
             if not in_context:
                 flagged.append(entity)
                 logger.warning(

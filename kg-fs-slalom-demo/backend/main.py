@@ -1,6 +1,7 @@
 """FastAPI application entry point for the Slalom Field Services Intelligence Platform."""
 
 import logging
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -16,7 +17,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Startup and shutdown lifecycle management."""
     logger.info("Starting Slalom Field Services Intelligence Platform...")
 

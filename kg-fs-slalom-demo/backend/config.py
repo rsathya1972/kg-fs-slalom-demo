@@ -1,5 +1,6 @@
 """Application configuration via Pydantic Settings."""
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -8,13 +9,20 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    # Anthropic
-    anthropic_api_key: str = "sk-ant-placeholder"
+    # Anthropic — required; no default so startup fails fast if missing
+    anthropic_api_key: str
 
     # Neo4j
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_username: str = "neo4j"
-    neo4j_password: str = "devpassword"
+    neo4j_password: str = "devpassword"  # local dev only — override via .env in all other envs
+
+    @field_validator("anthropic_api_key")
+    @classmethod
+    def api_key_must_be_real(cls, v: str) -> str:
+        if v.startswith("sk-ant-placeholder"):
+            raise ValueError("ANTHROPIC_API_KEY is a placeholder — set a real key in .env")
+        return v
 
     # OpenSearch
     opensearch_endpoint: str = "http://localhost:9200"

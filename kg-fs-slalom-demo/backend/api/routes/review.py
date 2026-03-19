@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/review-queue", tags=["review"])
 
 
-class ReviewQueueItem(BaseModel):
+class ReviewQueueItemResponse(BaseModel):
     """A single item awaiting human review for entity disambiguation."""
 
     id: str
@@ -20,7 +20,7 @@ class ReviewQueueItem(BaseModel):
     candidate_nodes_json: str
     extraction_confidence: float
     disambiguation_status: str
-    resolved_node_id: str | None
+    resolved_node_id: str | None = None
 
 
 class ReviewDecision(BaseModel):
@@ -30,11 +30,11 @@ class ReviewDecision(BaseModel):
     notes: str | None = None
 
 
-@router.get("", response_model=list[ReviewQueueItem])
+@router.get("", response_model=list[ReviewQueueItemResponse])
 async def get_review_queue(
     tenant_id: str = "utilities",
     status: str = "pending",
-) -> list[ReviewQueueItem]:
+) -> list[ReviewQueueItemResponse]:
     """
     List items in the review queue, filtered by disambiguation status.
 
@@ -54,7 +54,7 @@ async def approve_review_item(
     """
     Approve a review queue item by selecting or confirming the resolved entity node.
 
-    Updates the ReviewQueueItem status to 'resolved' and triggers KG merge.
+    Updates the ReviewQueueItemResponse status to 'resolved' and triggers KG merge.
     """
     logger.info("Approving review item: %s with node: %s", item_id, decision.resolved_node_id)
     raise HTTPException(

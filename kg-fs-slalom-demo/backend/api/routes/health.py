@@ -3,8 +3,7 @@
 import logging
 from datetime import datetime, timezone
 
-from fastapi import APIRouter
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from config import settings
@@ -25,7 +24,7 @@ class HealthResponse(BaseModel):
 
 
 @router.get("/health", response_model=HealthResponse)
-async def health_check() -> JSONResponse:
+async def health_check() -> HealthResponse:
     """
     Check the health of all downstream services.
 
@@ -62,12 +61,14 @@ async def health_check() -> JSONResponse:
     both_down = neo4j_status == "error" and opensearch_status == "error"
     overall_status = "degraded" if both_down else "ok"
 
-    payload = HealthResponse(
+    response = HealthResponse(
         status=overall_status,
         neo4j=neo4j_status,
         opensearch=opensearch_status,
         timestamp=datetime.now(timezone.utc).isoformat(),
     )
 
-    http_status = 503 if both_down else 200
-    return JSONResponse(content=payload.model_dump(), status_code=http_status)
+    if both_down:
+        raise HTTPException(status_code=503, detail=response.model_dump())
+
+    return response

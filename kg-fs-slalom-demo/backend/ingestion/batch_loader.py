@@ -42,7 +42,11 @@ async def load_tech_systems(json_path: str | Path, tenant_id: str) -> int:
         Number of nodes upserted.
     """
     path = Path(json_path)
-    records = json.loads(path.read_text(encoding="utf-8"))
+    try:
+        records = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.error("Failed to parse seed file %s: %s", path.name, exc)
+        return 0
     count = 0
     for record in records:
         await upsert_tech_system(record, tenant_id)
@@ -63,7 +67,11 @@ async def load_clients(json_path: str | Path, tenant_id: str) -> int:
         Number of nodes upserted.
     """
     path = Path(json_path)
-    records = json.loads(path.read_text(encoding="utf-8"))
+    try:
+        records = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.error("Failed to parse seed file %s: %s", path.name, exc)
+        return 0
     count = 0
     for record in records:
         await upsert_client(record, tenant_id)
@@ -84,7 +92,11 @@ async def load_consultants(json_path: str | Path, tenant_id: str) -> int:
         Number of nodes upserted.
     """
     path = Path(json_path)
-    records = json.loads(path.read_text(encoding="utf-8"))
+    try:
+        records = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.error("Failed to parse seed file %s: %s", path.name, exc)
+        return 0
     count = 0
     for record in records:
         await upsert_consultant(record, tenant_id)
@@ -109,7 +121,11 @@ async def load_discovery_questions(json_path: str | Path, tenant_id: str) -> int
     from graph.neo4j_client import run_query
 
     path = Path(json_path)
-    records = json.loads(path.read_text(encoding="utf-8"))
+    try:
+        records = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.error("Failed to parse seed file %s: %s", path.name, exc)
+        return 0
     count = 0
 
     for record in records:
@@ -168,7 +184,11 @@ async def load_integration_patterns(json_path: str | Path, tenant_id: str) -> in
     from graph.neo4j_client import run_query
 
     path = Path(json_path)
-    records = json.loads(path.read_text(encoding="utf-8"))
+    try:
+        records = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.error("Failed to parse seed file %s: %s", path.name, exc)
+        return 0
     count = 0
 
     for record in records:

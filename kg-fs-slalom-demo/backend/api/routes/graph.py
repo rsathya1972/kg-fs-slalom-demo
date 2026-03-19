@@ -1,6 +1,7 @@
 """Graph API routes — expose KG entities and named Cypher query execution."""
 
 import logging
+import uuid
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Query
@@ -29,8 +30,21 @@ class CypherQueryResponse(BaseModel):
     row_count: int
 
 
-@router.get("/clients")
-async def get_clients(tenant_id: str = "utilities") -> list[dict[str, Any]]:
+class PaginatedResponse(BaseModel):
+    """Standard paginated list response shape."""
+
+    items: list[dict[str, Any]]
+    total: int
+    limit: int
+    offset: int
+
+
+@router.get("/clients", response_model=PaginatedResponse)
+async def get_clients(
+    tenant_id: str = "utilities",
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+) -> PaginatedResponse:
     """
     List all utility client nodes with their engagement counts.
 
@@ -39,17 +53,21 @@ async def get_clients(tenant_id: str = "utilities") -> list[dict[str, Any]]:
     cypher, params = queries.get_utility_clients(tenant_id)
     try:
         rows = await run_query(cypher, params)
-        return rows
+        page = rows[offset : offset + limit]
+        return PaginatedResponse(items=page, total=len(rows), limit=limit, offset=offset)
     except Exception as exc:
-        logger.error("Failed to query clients: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
+        error_id = str(uuid.uuid4())
+        logger.error("Failed to query clients [%s]: %s", error_id, exc)
+        raise HTTPException(status_code=500, detail={"detail": "Internal error", "error_id": error_id})
 
 
-@router.get("/systems")
+@router.get("/systems", response_model=PaginatedResponse)
 async def get_systems(
     tenant_id: str = "utilities",
     category: str | None = Query(default=None, description="Filter by category: FSM, GIS, ADMS, ERP, etc."),
-) -> list[dict[str, Any]]:
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+) -> PaginatedResponse:
     """
     List technology systems, optionally filtered by category.
 
@@ -58,14 +76,20 @@ async def get_systems(
     cypher, params = queries.get_tech_systems(tenant_id, category)
     try:
         rows = await run_query(cypher, params)
-        return rows
+        page = rows[offset : offset + limit]
+        return PaginatedResponse(items=page, total=len(rows), limit=limit, offset=offset)
     except Exception as exc:
-        logger.error("Failed to query systems: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
+        error_id = str(uuid.uuid4())
+        logger.error("Failed to query systems [%s]: %s", error_id, exc)
+        raise HTTPException(status_code=500, detail={"detail": "Internal error", "error_id": error_id})
 
 
-@router.get("/use-cases")
-async def get_use_cases(tenant_id: str = "utilities") -> list[dict[str, Any]]:
+@router.get("/use-cases", response_model=PaginatedResponse)
+async def get_use_cases(
+    tenant_id: str = "utilities",
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+) -> PaginatedResponse:
     """
     List all FSM use cases seeded into the graph.
 
@@ -79,24 +103,32 @@ async def get_use_cases(tenant_id: str = "utilities") -> list[dict[str, Any]]:
     """
     try:
         rows = await run_query(cypher, {"tenant_id": tenant_id})
-        return rows
+        page = rows[offset : offset + limit]
+        return PaginatedResponse(items=page, total=len(rows), limit=limit, offset=offset)
     except Exception as exc:
-        logger.error("Failed to query use cases: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
+        error_id = str(uuid.uuid4())
+        logger.error("Failed to query use cases [%s]: %s", error_id, exc)
+        raise HTTPException(status_code=500, detail={"detail": "Internal error", "error_id": error_id})
 
 
-@router.get("/consultants")
-async def get_consultants(tenant_id: str = "utilities") -> list[dict[str, Any]]:
+@router.get("/consultants", response_model=PaginatedResponse)
+async def get_consultants(
+    tenant_id: str = "utilities",
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+) -> PaginatedResponse:
     """
     List consultants with utility FSM experience, ordered by years of experience.
     """
     cypher, params = queries.get_fsm_consultants(tenant_id)
     try:
         rows = await run_query(cypher, params)
-        return rows
+        page = rows[offset : offset + limit]
+        return PaginatedResponse(items=page, total=len(rows), limit=limit, offset=offset)
     except Exception as exc:
-        logger.error("Failed to query consultants: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
+        error_id = str(uuid.uuid4())
+        logger.error("Failed to query consultants [%s]: %s", error_id, exc)
+        raise HTTPException(status_code=500, detail={"detail": "Internal error", "error_id": error_id})
 
 
 @router.post("/query", response_model=CypherQueryResponse)
