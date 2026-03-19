@@ -1,0 +1,67 @@
+Imagine the following scenario.
+A consultant walks into a sales meeting with a potential client at an electric utility in the US. The client is
+based in San Diego, and the utility is part of a larger Utility holding group with a market cap over $60b
+USD. The potential client is the SVP over Field Services and wants to talk about replacing their aging
+
+Field Service Management platform. Based on some Salesforce searches, the consultant has seen that
+we&#39;ve pitched Salesforce Service Cloud before and is armed with some of the deliverables that we&#39;ve done
+for this utility in other parts of the business, including the development of a Wildfire Management
+application and an IT app modernization project.
+How would a typical conversation go? We would seek to understand the problem, maybe some of the pain
+points they are having. Maybe we’d ask about metrics that they are trying to improve. We would talk
+about our capabilities with field service solutions like Salesforce or ServiceNow. We might even talk
+about other utilities that we work with, not necessarily in this functional area, but could introduce them to
+someone that has recently gone through this. We would also likely bring up our ability to help with
+business cases, discovery or vendor assessments. However, most of the industry and problem definition
+would be driven by the client. Save for a few dozen people, there aren&#39;t many at Slalom who have
+experience with Utility Field Services. Maybe there would be a few dozen more that have done field
+services for other industries, that might include telco, energy generation, automotive, construction or
+other industries that have similar functions. But what if that consultant, who didn&#39;t have any direct
+experience in this functional space with this client, was able to tap into the collective experience of those
+few dozen consultants, and know to ask questions like:
+
+ What are you currently unhappy with in regard to your existing application? Answers will
+typically include lack of visibility of work orders and status, inefficient workforce management,
+not using all of the data that is available from the work order or the asset itself, difficulty in using
+the actual applications which are buried in an ERP.
+ What application are you using today? SAP, Oracle, Oracle NetSuite, ServiceNow, Salesforce,
+Custom?
+ What version and what components are you using of that vendor suite?
+ What Asset Management solution are you using?
+ Is your asset management solution integrated with GIS? or is that a separate application?
+ Do you have a mobile field service application? if yes, is it an integrated application or is it
+separate?
+ Are you using 3rd party field engineers? FTEs? Hybrid?
+ Are work orders generated and managed in your field service application?
+ Are parts, time and other costs managed within the field service application? If not, where are
+those being managed?
+ Is fleet management, including staffing and truck rolls, managed within the field service
+application?
+ What data are you capturing at the field site?
+ Is there any computer vision or augmented data, image or video capture being done on site?
+ Is there any telemetry on the assets? If so, what data is being captured and where is that sent
+today? Is there any integration to ADMS, GIS or Asset Management?
+ Are there security measures in place that may require identity validation or access control to
+access the asset?
+
+And to know that it would be typical for a utility to be using the Field Service capability from their ERP
+(Oracle or SAP), which is likely where they are keeping Asset information as well. More progressive
+utilities may already be using Salesforce or ServiceNow for field service, but that would reduce the
+likelihood they would be asking about this use case if they were already using those solutions.
+Imagine now that we also had a proprietary layer sitting on top of any of the most common LLMs that
+contained:
+
+ Narrative descriptions from every project in this industry or functional area related to this use
+case.
+ Lists of questions, and likely answers, that would give shape to the problem.
+ Integrations with known systems (often defined by company, industry or both)
+ Key Data sources or required data in order to enable the use case.
+ Workflows or process diagrams that describe the flow of data and user interaction that occurs as
+part of the use case.
+ Functional architecture diagrams detailing components that are included as part of the concept,
+but also ones that are likely provided by the client.
+ Audio transcriptions of meetings and conversations related to the topic.
+
+And now imagine if we had corresponding solutions that were already pre-built OR could be accelerated
+with components, data models, pre-built connectors or architectural frameworks that all leveraged this
+context.
