@@ -46,5 +46,6 @@
   {"canonical": "GE ADMS", "aliases": ["GE ADMS", "GE Grid Solutions ADMS", "GE Advanced Distribution Management System", "GE Energy ADMS", "GE Vernova ADMS"]},
   {"canonical": "Schneider Electric ADMS", "aliases": ["Schneider ADMS", "Schneider Electric ADMS", "SCADA Expert Geo SCADA", "ACS ADMS", "Schneider DMS"]},
   {"canonical": "Milsoft", "aliases": ["Milsoft", "Milsoft Engineering Solutions", "Milsoft outage management", "Milsoft OMS"]},
-  {"canonical": "Bentley AssetWise", "aliases": ["Bentley", "AssetWise", "Bentley AssetWise", "Bentley ALIM", "Bentley asset lifecycle information management"]}
+  {"canonical": "Bentley AssetWise", "aliases": ["Bentley", "AssetWise", "Bentley AssetWise", "Bentley ALIM", "Bentley asset lifecycle information management"]},
+  {"canonical": "Work Order Management", "aliases": ["WOM", "work order management", "WO management", "work management"]}
 ]

@@ -1,0 +1,182 @@
+[
+  {
+    "id": "cli-001",
+    "name": "Pacific Coast Power & Light",
+    "utility_type": "IOU",
+    "hq_state": "CA",
+    "revenue_band": ">$20B",
+    "employee_count": 22000,
+    "notes": "Large California IOU; CPUC-regulated; significant wildfire risk exposure; active FSM modernization program"
+  },
+  {
+    "id": "cli-002",
+    "name": "Sierra Nevada Energy",
+    "utility_type": "IOU",
+    "hq_state": "CA",
+    "revenue_band": "$5B-$20B",
+    "employee_count": 8500,
+    "notes": "Mid-size California IOU; strong NERC CIP compliance posture; running SAP PM for work order management"
+  },
+  {
+    "id": "cli-003",
+    "name": "Gulf Coast Electric",
+    "utility_type": "IOU",
+    "hq_state": "TX",
+    "revenue_band": "$5B-$20B",
+    "employee_count": 9200,
+    "notes": "Texas IOU; PUCT-regulated; significant storm response requirements; evaluating FSM replacement"
+  },
+  {
+    "id": "cli-004",
+    "name": "Lone Star Transmission",
+    "utility_type": "IOU",
+    "hq_state": "TX",
+    "revenue_band": "$1B-$5B",
+    "employee_count": 3100,
+    "notes": "Texas T&D-focused utility; ERCOT market participant; mobile field worker program in planning"
+  },
+  {
+    "id": "cli-005",
+    "name": "Great Lakes Power Co.",
+    "utility_type": "IOU",
+    "hq_state": "IL",
+    "revenue_band": "$5B-$20B",
+    "employee_count": 7800,
+    "notes": "Midwest IOU; MPSC and ICC regulated; Oracle eAM shop; aging infrastructure replacement underway"
+  },
+  {
+    "id": "cli-006",
+    "name": "Ohio Valley Electric",
+    "utility_type": "IOU",
+    "hq_state": "OH",
+    "revenue_band": "$1B-$5B",
+    "employee_count": 4200,
+    "notes": "PUCO-regulated; IBM Maximo deployment; exploring Salesforce FSM for field operations"
+  },
+  {
+    "id": "cli-007",
+    "name": "Sunshine State Power",
+    "utility_type": "IOU",
+    "hq_state": "FL",
+    "revenue_band": ">$20B",
+    "employee_count": 18500,
+    "notes": "Large Florida IOU; FPSC-regulated; hurricane hardening programs drive FSM complexity"
+  },
+  {
+    "id": "cli-008",
+    "name": "Cascadia Electric",
+    "utility_type": "IOU",
+    "hq_state": "OR",
+    "revenue_band": "$1B-$5B",
+    "employee_count": 3600,
+    "notes": "Oregon IOU; OPUC-regulated; Esri ArcGIS Utility Network deployment completed 2022"
+  },
+  {
+    "id": "cli-009",
+    "name": "Pacific Northwest Grid",
+    "utility_type": "IOU",
+    "hq_state": "WA",
+    "revenue_band": "$1B-$5B",
+    "employee_count": 4100,
+    "notes": "Washington state IOU; WUTC-regulated; active AMI deployment; OMS modernization in progress"
+  },
+  {
+    "id": "cli-010",
+    "name": "Desert Southwest Utilities",
+    "utility_type": "IOU",
+    "hq_state": "AZ",
+    "revenue_band": "$1B-$5B",
+    "employee_count": 2900,
+    "notes": "Arizona IOU; ACC-regulated; high solar DER penetration; contractor-heavy workforce model"
+  },
+  {
+    "id": "cli-011",
+    "name": "Empire State Power",
+    "utility_type": "IOU",
+    "hq_state": "NY",
+    "revenue_band": "$5B-$20B",
+    "employee_count": 11200,
+    "notes": "New York IOU; NYSPSC-regulated; DSP mandate compliance; significant union workforce"
+  },
+  {
+    "id": "cli-012",
+    "name": "Wolverine State Electric",
+    "utility_type": "IOU",
+    "hq_state": "MI",
+    "revenue_band": "$5B-$20B",
+    "employee_count": 8900,
+    "notes": "Michigan IOU; MPSC-regulated; SAP PM + GIS integration project recently completed"
+  },
+  {
+    "id": "cli-013",
+    "name": "Capital City Power Authority",
+    "utility_type": "Muni",
+    "hq_state": "CA",
+    "revenue_band": "$1B-$5B",
+    "employee_count": 1800,
+    "notes": "Municipal utility; not CPUC-regulated; recently completed ServiceNow FSM pilot"
+  },
+  {
+    "id": "cli-014",
+    "name": "Riverview Municipal Light & Power",
+    "utility_type": "Muni",
+    "hq_state": "IL",
+    "revenue_band": "<$1B",
+    "employee_count": 450,
+    "notes": "Small municipal utility; legacy work order system; evaluating cloud FSM options"
+  },
+  {
+    "id": "cli-015",
+    "name": "Emerald City Energy",
+    "utility_type": "Muni",
+    "hq_state": "WA",
+    "revenue_band": "$1B-$5B",
+    "employee_count": 1200,
+    "notes": "Municipal public utility; 100% hydroelectric supply; advanced smart grid program"
+  },
+  {
+    "id": "cli-016",
+    "name": "Northland Public Power District",
+    "utility_type": "Muni",
+    "hq_state": "NY",
+    "revenue_band": "<$1B",
+    "employee_count": 380,
+    "notes": "Public power district; all-electric territory; paper-based work orders currently"
+  },
+  {
+    "id": "cli-017",
+    "name": "Blue Ridge Rural Electric Cooperative",
+    "utility_type": "Co-op",
+    "hq_state": "GA",
+    "revenue_band": "<$1B",
+    "employee_count": 280,
+    "notes": "Rural electric co-op; member-owned; Milsoft OMS; evaluating mobile field app"
+  },
+  {
+    "id": "cli-018",
+    "name": "Heartland Electric Cooperative",
+    "utility_type": "Co-op",
+    "hq_state": "MI",
+    "revenue_band": "<$1B",
+    "employee_count": 320,
+    "notes": "Rural co-op; strong NRECA member; Itron AMI deployment; ServiceMax evaluation underway"
+  },
+  {
+    "id": "cli-019",
+    "name": "High Plains G&T Cooperative",
+    "utility_type": "Co-op",
+    "hq_state": "TX",
+    "revenue_band": "$1B-$5B",
+    "employee_count": 890,
+    "notes": "Generation and transmission cooperative supplying 14 distribution co-ops; bulk electric system NERC CIP assets"
+  },
+  {
+    "id": "cli-020",
+    "name": "Western Energy Holdings",
+    "utility_type": "Holding Company",
+    "hq_state": "AZ",
+    "revenue_band": "$5B-$20B",
+    "employee_count": 14000,
+    "notes": "Holding company owning 3 regulated utility subsidiaries across AZ, NM, NV; enterprise-wide FSM standardization initiative"
+  }
+]

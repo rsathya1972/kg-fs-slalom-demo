@@ -5,19 +5,34 @@ Used to bootstrap the knowledge graph with:
     - Technology systems (vendors, categories, utility relevance)
     - Client organizations
     - Consultant profiles
+    - Engagement records with client relationships
+    - Use cases extracted from the taxonomy hierarchy
     - Discovery questions with branching logic
     - Integration patterns between systems
+    - Solution accelerators linked to use cases
 
 All loaders use the upsert functions in graph.upsert for idempotency.
+
+Dependency order for run_all_seed_data:
+    1. tech_systems_utility.json       (no deps)
+    2. clients_utility.json            (no deps)
+    3. consultants_utility.json        (no deps)
+    4. engagements_utility.json        (requires: clients)
+    5. use_case_taxonomy.json          (no deps — extracts sub_domain + sub_topic nodes)
+    6. discovery_qa_utility_fsm.json   (requires: use_cases for RELEVANT_TO links)
+    7. integration_patterns.json       (requires: tech_systems)
+    8. solution_accelerators.json      (requires: use_cases for ACCELERATES links)
 """
 
 import json
 import logging
+import re
 from pathlib import Path
 
 from graph.upsert import (
     upsert_client,
     upsert_consultant,
+    upsert_engagement,
     upsert_tech_system,
     upsert_use_case,
     create_relationship,
@@ -28,6 +43,14 @@ logger = logging.getLogger(__name__)
 # Seed data directory relative to project root
 _SEED_DIR = Path(__file__).parents[2] / "data" / "seed"
 _ONTOLOGY_DIR = Path(__file__).parents[2] / "data" / "ontology"
+
+# Priority label → numeric score for UseCase nodes
+_PRIORITY_SCORES = {"critical": 1.0, "high": 0.8, "medium": 0.5, "low": 0.2}
+
+
+def _slugify(text: str) -> str:
+    """Convert a display name to a kebab-case ID fragment."""
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
 
 async def load_tech_systems(json_path: str | Path, tenant_id: str) -> int:
@@ -102,6 +125,183 @@ async def load_consultants(json_path: str | Path, tenant_id: str) -> int:
         await upsert_consultant(record, tenant_id)
         count += 1
     logger.info("Loaded %d Consultant nodes from %s", count, path.name)
+    return count
+
+
+async def load_engagements(json_path: str | Path, tenant_id: str) -> int:
+    """
+    Load Engagement seed records from a JSON file and upsert into Neo4j.
+
+    Each engagement is upserted then linked to its parent Client via a
+    HAS_ENGAGEMENT relationship.
+
+    Requires Client nodes to already exist (load_clients must run first).
+
+    Args:
+        json_path:  Path to JSON file containing a list of Engagement dicts.
+        tenant_id:  Tenant identifier applied to all nodes.
+
+    Returns:
+        Number of Engagement nodes upserted.
+    """
+    path = Path(json_path)
+    try:
+        records = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.error("Failed to parse seed file %s: %s", path.name, exc)
+        return 0
+    count = 0
+    for record in records:
+        await upsert_engagement(record, tenant_id)
+
+        # Link Client → Engagement
+        client_id = record.get("client_id")
+        if client_id:
+            await create_relationship(
+                from_id=client_id,
+                from_label="Client",
+                to_id=record["id"],
+                to_label="Engagement",
+                rel_type="HAS_ENGAGEMENT",
+                props={"source": "seed_data"},
+                tenant_id=tenant_id,
+            )
+        count += 1
+
+    logger.info("Loaded %d Engagement nodes from %s", count, path.name)
+    return count
+
+
+async def load_use_cases(json_path: str | Path, tenant_id: str) -> int:
+    """
+    Load UseCase nodes from the use_case_taxonomy.json ontology file.
+
+    Creates two levels of UseCase nodes:
+        - Sub-domain level: id = "uc-<slug-of-subdomain>" (referenced by solution_accelerators)
+        - Sub-topic level:  id = "uc-<slug-of-subdomain>-<slug-of-subtopic>"
+
+    Args:
+        json_path:  Path to use_case_taxonomy.json.
+        tenant_id:  Tenant identifier applied to all nodes.
+
+    Returns:
+        Total number of UseCase nodes upserted (sub-domain + sub-topic).
+    """
+    path = Path(json_path)
+    try:
+        taxonomy = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.error("Failed to parse taxonomy file %s: %s", path.name, exc)
+        return 0
+
+    count = 0
+    for sub_domain in taxonomy.get("sub_domains", []):
+        domain_name = sub_domain["name"]
+        domain_id = f"uc-{_slugify(domain_name)}"
+        priority = sub_domain.get("priority", "medium")
+        priority_score = _PRIORITY_SCORES.get(priority, 0.5)
+
+        # Upsert sub-domain UseCase node
+        await upsert_use_case(
+            {
+                "id": domain_id,
+                "name": domain_name,
+                "sub_domain": domain_name,
+                "topic": None,
+                "description": sub_domain.get("description", ""),
+                "priority_score": priority_score,
+            },
+            tenant_id,
+        )
+        count += 1
+
+        # Upsert each sub-topic leaf node
+        for sub_topic in sub_domain.get("sub_topics", []):
+            topic_name = sub_topic["name"]
+            topic_id = f"{domain_id}-{_slugify(topic_name)}"
+
+            await upsert_use_case(
+                {
+                    "id": topic_id,
+                    "name": topic_name,
+                    "sub_domain": domain_name,
+                    "topic": topic_name,
+                    "description": sub_topic.get("description", ""),
+                    "priority_score": priority_score,
+                },
+                tenant_id,
+            )
+            count += 1
+
+    logger.info("Loaded %d UseCase nodes from %s", count, path.name)
+    return count
+
+
+async def load_solution_accelerators(json_path: str | Path, tenant_id: str) -> int:
+    """
+    Load SolutionAccelerator seed records and upsert into Neo4j.
+
+    Creates ACCELERATES relationships to UseCase nodes listed in applicable_use_cases.
+    Requires UseCase nodes to already exist (load_use_cases must run first).
+
+    Args:
+        json_path:  Path to JSON file containing a list of SolutionAccelerator dicts.
+        tenant_id:  Tenant identifier applied to all nodes.
+
+    Returns:
+        Number of SolutionAccelerator nodes upserted.
+    """
+    from graph.neo4j_client import run_query
+
+    path = Path(json_path)
+    try:
+        records = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.error("Failed to parse seed file %s: %s", path.name, exc)
+        return 0
+
+    count = 0
+    for record in records:
+        cypher = """
+            MERGE (n:SolutionAccelerator {id: $id})
+            SET
+                n.tenant_id              = $tenant_id,
+                n.name                   = $name,
+                n.description            = $description,
+                n.applicable_systems     = $applicable_systems,
+                n.applicable_use_cases   = $applicable_use_cases,
+                n.artifact_path          = $artifact_path,
+                n.updated_at             = datetime()
+            ON CREATE SET n.created_at = datetime()
+            RETURN n.id AS id
+        """
+        params = {
+            "id": record["id"],
+            "tenant_id": tenant_id,
+            "name": record["name"],
+            "description": record.get("description", ""),
+            "applicable_systems": record.get("applicable_systems", []),
+            "applicable_use_cases": record.get("applicable_use_cases", []),
+            "artifact_path": record.get("artifact_path", ""),
+        }
+        await run_query(cypher, params)
+        logger.debug("Upserted SolutionAccelerator: %s", record["id"])
+
+        # Create ACCELERATES → UseCase relationships
+        for uc_id in record.get("applicable_use_cases", []):
+            await create_relationship(
+                from_id=record["id"],
+                from_label="SolutionAccelerator",
+                to_id=uc_id,
+                to_label="UseCase",
+                rel_type="ACCELERATES",
+                props={"source": "seed_data"},
+                tenant_id=tenant_id,
+            )
+
+        count += 1
+
+    logger.info("Loaded %d SolutionAccelerator nodes from %s", count, path.name)
     return count
 
 
@@ -240,8 +440,13 @@ async def run_all_seed_data(tenant_id: str) -> dict[str, int]:
 
     Order:
         1. tech_systems_utility.json       (no dependencies)
-        2. discovery_qa_utility_fsm.json   (no node dependencies, but creates UseCase links)
-        3. integration_patterns.json       (requires TechSystem nodes)
+        2. clients_utility.json            (no dependencies)
+        3. consultants_utility.json        (no dependencies)
+        4. engagements_utility.json        (requires: clients)
+        5. use_case_taxonomy.json          (no dependencies — extracts UseCase nodes)
+        6. discovery_qa_utility_fsm.json   (requires: use_cases for RELEVANT_TO links)
+        7. integration_patterns.json       (requires: tech_systems)
+        8. solution_accelerators.json      (requires: use_cases for ACCELERATES links)
 
     Args:
         tenant_id: Tenant identifier applied to all seed nodes.
@@ -253,23 +458,72 @@ async def run_all_seed_data(tenant_id: str) -> dict[str, int]:
 
     logger.info("Starting seed data load for tenant: %s", tenant_id)
 
+    # 1. Tech systems
     systems_path = _SEED_DIR / "tech_systems_utility.json"
     if systems_path.exists():
         results["tech_systems"] = await load_tech_systems(systems_path, tenant_id)
     else:
         logger.warning("Seed file not found: %s", systems_path)
 
+    # 2. Clients
+    clients_path = _SEED_DIR / "clients_utility.json"
+    if clients_path.exists():
+        results["clients"] = await load_clients(clients_path, tenant_id)
+    else:
+        logger.warning("Seed file not found: %s", clients_path)
+
+    # 3. Consultants
+    consultants_path = _SEED_DIR / "consultants_utility.json"
+    if consultants_path.exists():
+        results["consultants"] = await load_consultants(consultants_path, tenant_id)
+    else:
+        logger.warning("Seed file not found: %s", consultants_path)
+
+    # 4. Engagements (requires clients)
+    engagements_path = _SEED_DIR / "engagements_utility.json"
+    if engagements_path.exists():
+        results["engagements"] = await load_engagements(engagements_path, tenant_id)
+    else:
+        logger.warning("Seed file not found: %s", engagements_path)
+
+    # 5. Use cases from taxonomy (required by discovery questions + accelerators)
+    taxonomy_path = _ONTOLOGY_DIR / "use_case_taxonomy.json"
+    if taxonomy_path.exists():
+        results["use_cases"] = await load_use_cases(taxonomy_path, tenant_id)
+    else:
+        logger.warning("Taxonomy file not found: %s", taxonomy_path)
+
+    # 6. Discovery questions (requires use_cases for RELEVANT_TO relationships)
     dq_path = _SEED_DIR / "discovery_qa_utility_fsm.json"
     if dq_path.exists():
         results["discovery_questions"] = await load_discovery_questions(dq_path, tenant_id)
     else:
         logger.warning("Seed file not found: %s", dq_path)
 
+    # 7. Integration patterns (requires tech_systems)
     int_path = _SEED_DIR / "integration_patterns.json"
     if int_path.exists():
         results["integration_patterns"] = await load_integration_patterns(int_path, tenant_id)
     else:
         logger.warning("Seed file not found: %s", int_path)
 
+    # 8. Solution accelerators (requires use_cases for ACCELERATES relationships)
+    accel_path = _SEED_DIR / "solution_accelerators.json"
+    if accel_path.exists():
+        results["solution_accelerators"] = await load_solution_accelerators(accel_path, tenant_id)
+    else:
+        logger.warning("Seed file not found: %s", accel_path)
+
     logger.info("Seed data load complete: %s", results)
     return results
+
+
+if __name__ == "__main__":
+    import asyncio
+    from config import settings
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
+    asyncio.run(run_all_seed_data(settings.tenant_id))

@@ -1,0 +1,222 @@
+[
+  {
+    "id": "eng-001",
+    "title": "FSM Platform Assessment — SAP PM Replacement Evaluation",
+    "client_id": "cli-001",
+    "utility_type": "IOU",
+    "phase": "Assessment",
+    "status": "completed",
+    "start_date": "2023-01-15",
+    "end_date": "2023-04-30",
+    "outcome_summary": "Evaluated 6 FSM vendors against 47 utility-specific requirements. Recommended Salesforce FSM with MuleSoft integration to SAP. Identified $12M 5-year TCO savings over maintaining SAP PM extensions."
+  },
+  {
+    "id": "eng-002",
+    "title": "Salesforce FSM Implementation — Mobile Field Worker Rollout",
+    "client_id": "cli-001",
+    "utility_type": "IOU",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2023-07-01",
+    "end_date": "2024-03-31",
+    "outcome_summary": "Deployed Salesforce Field Service to 1,400 field technicians across 6 service territories. Achieved 94% mobile app adoption in 90 days. Reduced truck rolls by 8% through intelligent scheduling."
+  },
+  {
+    "id": "eng-003",
+    "title": "GIS + Work Order Integration Architecture",
+    "client_id": "cli-002",
+    "utility_type": "IOU",
+    "phase": "Design",
+    "status": "completed",
+    "start_date": "2022-09-01",
+    "end_date": "2023-01-15",
+    "outcome_summary": "Designed bidirectional integration between SAP PM and Esri ArcGIS Utility Network using SAP Integration Suite. Established real-time asset location context for field crews. Reduced work order address errors by 31%."
+  },
+  {
+    "id": "eng-004",
+    "title": "IBM Maximo Upgrade and Mobile Enablement",
+    "client_id": "cli-006",
+    "utility_type": "IOU",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2022-03-01",
+    "end_date": "2022-11-30",
+    "outcome_summary": "Upgraded IBM Maximo from v7.6.1 to Maximo Application Suite 8.10. Deployed Maximo Mobile for 320 field technicians. Integrated with Esri ArcGIS for asset geolocation. Reduced WO closure lag from 4.2 days to 0.8 days."
+  },
+  {
+    "id": "eng-005",
+    "title": "Storm Response Workflow Optimization — OMS/FSM Integration",
+    "client_id": "cli-007",
+    "utility_type": "IOU",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2023-02-15",
+    "end_date": "2023-09-30",
+    "outcome_summary": "Automated outage work order creation from GE ADMS outage events into Salesforce FSM. Reduced manual storm WO creation effort by 78%. Improved SAIDI performance by 14 minutes during 2023 hurricane season."
+  },
+  {
+    "id": "eng-006",
+    "title": "ADMS Selection and Roadmap Assessment",
+    "client_id": "cli-009",
+    "utility_type": "IOU",
+    "phase": "Assessment",
+    "status": "completed",
+    "start_date": "2022-06-01",
+    "end_date": "2022-10-31",
+    "outcome_summary": "Evaluated GE ADMS vs. Schneider Electric ADMS for 450kV T&D network. Assessed OMS integration requirements with existing Oracle Utilities Work Management. Recommended GE ADMS with phased 4-year implementation roadmap."
+  },
+  {
+    "id": "eng-007",
+    "title": "AMI Work Order Automation Framework",
+    "client_id": "cli-009",
+    "utility_type": "IOU",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2023-03-01",
+    "end_date": "2023-12-15",
+    "outcome_summary": "Integrated Itron AMI platform with Oracle Utilities Work Management to auto-generate tamper, outage confirmation, and meter failure work orders. Eliminated 3,200 manual work order entries per month."
+  },
+  {
+    "id": "eng-008",
+    "title": "Contractor Management Portal — Salesforce Experience Cloud",
+    "client_id": "cli-010",
+    "utility_type": "IOU",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2022-11-01",
+    "end_date": "2023-06-30",
+    "outcome_summary": "Built contractor self-service portal on Salesforce Experience Cloud. Automated safety certification verification, work order assignment to contractor crews, and performance tracking. Reduced contractor onboarding time from 3 weeks to 4 days."
+  },
+  {
+    "id": "eng-009",
+    "title": "ServiceNow FSM Pilot — IT/OT Work Order Convergence",
+    "client_id": "cli-013",
+    "utility_type": "Muni",
+    "phase": "Assessment",
+    "status": "completed",
+    "start_date": "2023-05-01",
+    "end_date": "2023-08-31",
+    "outcome_summary": "Piloted ServiceNow FSM for substation maintenance WOs alongside existing IT service desk. Demonstrated feasibility of unified IT/OT work order platform. Identified 23 integration points with SCADA and GIS systems."
+  },
+  {
+    "id": "eng-010",
+    "title": "ArcGIS Utility Network Migration",
+    "client_id": "cli-008",
+    "utility_type": "IOU",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2021-06-01",
+    "end_date": "2022-05-31",
+    "outcome_summary": "Migrated 2.4M asset records from legacy Smallworld GIS to Esri ArcGIS Utility Network. Established network tracing and connectivity rules for 14 feeder circuits. Foundation for FSM geolocation integration."
+  },
+  {
+    "id": "eng-011",
+    "title": "NERC CIP Field Access Control Implementation",
+    "client_id": "cli-019",
+    "utility_type": "Co-op",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2022-08-01",
+    "end_date": "2023-02-28",
+    "outcome_summary": "Implemented NERC CIP-006 and CIP-004 physical access controls for 18 bulk electric system substations. Integrated identity management with field work order authorization workflow. Passed NERC audit with zero violations."
+  },
+  {
+    "id": "eng-012",
+    "title": "Oracle eAM to IBM Maximo Migration Readiness",
+    "client_id": "cli-005",
+    "utility_type": "IOU",
+    "phase": "Assessment",
+    "status": "completed",
+    "start_date": "2023-09-01",
+    "end_date": "2024-01-31",
+    "outcome_summary": "Data migration analysis across 180,000 asset records, 5 years of WO history, and 340 custom Oracle eAM extensions. Identified 67 extension equivalents in Maximo Application Suite. Estimated 18-month migration timeline."
+  },
+  {
+    "id": "eng-013",
+    "title": "Predictive Maintenance Program — AVEVA PI to Maximo Integration",
+    "client_id": "cli-012",
+    "utility_type": "IOU",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2022-04-01",
+    "end_date": "2023-01-31",
+    "outcome_summary": "Integrated AVEVA PI System historian with IBM Maximo to trigger condition-based maintenance WOs on transformer thermal anomalies. Predicted and prevented 4 transformer failures in first 6 months. ROI documented at 340%."
+  },
+  {
+    "id": "eng-014",
+    "title": "Mobile Field Application Adoption — Change Management",
+    "client_id": "cli-011",
+    "utility_type": "IOU",
+    "phase": "Support",
+    "status": "completed",
+    "start_date": "2023-06-01",
+    "end_date": "2023-12-31",
+    "outcome_summary": "Drove adoption of Oracle Field Service mobile app for 900-person union field workforce. Managed union agreement negotiation for device policy. Achieved 88% active daily usage within 90 days of launch."
+  },
+  {
+    "id": "eng-015",
+    "title": "IFS FSM Evaluation for Asset-Intensive Field Operations",
+    "client_id": "cli-020",
+    "utility_type": "Holding Company",
+    "phase": "Assessment",
+    "status": "completed",
+    "start_date": "2023-10-01",
+    "end_date": "2024-02-29",
+    "outcome_summary": "Evaluated IFS FSM and Salesforce FSM for enterprise-wide standardization across 3 utility subsidiaries. IFS selected for stronger asset management integration. Developed subsidiary rollout sequencing plan."
+  },
+  {
+    "id": "eng-016",
+    "title": "Rural Co-op Mobile Field Worker Program",
+    "client_id": "cli-017",
+    "utility_type": "Co-op",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2023-01-01",
+    "end_date": "2023-07-31",
+    "outcome_summary": "Deployed ServiceMax mobile app to 45 field technicians on Android tablets. Integrated with Milsoft OMS for outage WO generation. Offline capability tested in rural low-connectivity zones. Eliminated paper work orders entirely."
+  },
+  {
+    "id": "eng-017",
+    "title": "SAIDI/SAIFI Reporting Automation",
+    "client_id": "cli-003",
+    "utility_type": "IOU",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2022-01-01",
+    "end_date": "2022-08-31",
+    "outcome_summary": "Automated PUCT SAIDI/SAIFI monthly reporting from OMS outage event data. Replaced 40-hour manual monthly reporting effort with automated nightly calculation and dashboard. Zero manual errors in first year of operation."
+  },
+  {
+    "id": "eng-018",
+    "title": "Parts and Materials Management Integration — Maximo Storeroom",
+    "client_id": "cli-006",
+    "utility_type": "IOU",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2023-02-01",
+    "end_date": "2023-10-31",
+    "outcome_summary": "Connected IBM Maximo Storeroom module with SAP ERP inventory for real-time parts availability in field WOs. Field techs can check truck stock and initiate parts requests from mobile app. Reduced parts-related WO delays by 22%."
+  },
+  {
+    "id": "eng-019",
+    "title": "Heartland Co-op AMI Work Order Integration",
+    "client_id": "cli-018",
+    "utility_type": "Co-op",
+    "phase": "Implement",
+    "status": "completed",
+    "start_date": "2023-04-01",
+    "end_date": "2023-11-30",
+    "outcome_summary": "Integrated Itron AMI platform with ServiceMax to auto-generate meter tamper and outage WOs. Eliminated 95% of manual meter-read dispatch WOs. Connected 28,000 smart meters to field work order workflow."
+  },
+  {
+    "id": "eng-020",
+    "title": "Lone Star Transmission FSM and GIS Modernization Roadmap",
+    "client_id": "cli-004",
+    "utility_type": "IOU",
+    "phase": "Assessment",
+    "status": "completed",
+    "start_date": "2024-01-15",
+    "end_date": "2024-05-31",
+    "outcome_summary": "Developed 5-year technology roadmap for FSM and GIS modernization. Assessed 3 FSM platforms and 2 GIS options against ERCOT operational requirements. Recommended Salesforce FSM + ArcGIS Utility Network with 3-phase implementation approach."
+  }
+]

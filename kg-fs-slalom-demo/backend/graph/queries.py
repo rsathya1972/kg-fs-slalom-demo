@@ -125,6 +125,59 @@ def get_client_system_landscape(
     return cypher, {"tenant_id": tenant_id, "client_name": client_name}
 
 
+def get_clients_by_two_systems(
+    tenant_id: str, system1_name: str, system2_name: str
+) -> tuple[str, dict[str, Any]]:
+    """
+    Get utility clients that use both system1 AND system2 simultaneously.
+
+    Useful for queries like "utilities running SAP PM + Esri ArcGIS".
+
+    Returns columns: id, name, utility_type, hq_state, system1, system2.
+    """
+    cypher = """
+        MATCH (c:Client {tenant_id: $tenant_id})-[:USES_SYSTEM]->(s1:TechSystem)
+        WHERE s1.product_name CONTAINS $sys1
+        MATCH (c)-[:USES_SYSTEM]->(s2:TechSystem)
+        WHERE s2.product_name CONTAINS $sys2
+        RETURN
+            c.id            AS id,
+            c.name          AS name,
+            c.utility_type  AS utility_type,
+            c.hq_state      AS hq_state,
+            s1.product_name AS system1,
+            s2.product_name AS system2
+        ORDER BY c.name
+    """
+    return cypher, {"tenant_id": tenant_id, "sys1": system1_name, "sys2": system2_name}
+
+
+def get_systems_by_integration_target(
+    tenant_id: str, target_product_name: str
+) -> tuple[str, dict[str, Any]]:
+    """
+    Get TechSystems that INTEGRATES_WITH a given target system (by product_name substring).
+
+    Useful for queries like "what systems integrate with ArcGIS?".
+
+    Returns columns: id, vendor, product_name, category, integration_type,
+                     pattern_description.
+    """
+    cypher = """
+        MATCH (source:TechSystem {tenant_id: $tenant_id})-[r:INTEGRATES_WITH]->(target:TechSystem)
+        WHERE target.product_name CONTAINS $target_name
+        RETURN
+            source.id               AS id,
+            source.vendor           AS vendor,
+            source.product_name     AS product_name,
+            source.category         AS category,
+            r.integration_type      AS integration_type,
+            r.pattern_description   AS pattern_description
+        ORDER BY source.category, source.vendor
+    """
+    return cypher, {"tenant_id": tenant_id, "target_name": target_product_name}
+
+
 def get_discovery_questions_for_use_case(
     tenant_id: str, use_case_name: str
 ) -> tuple[str, dict[str, Any]]:

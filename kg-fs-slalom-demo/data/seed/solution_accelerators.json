@@ -1,0 +1,82 @@
+[
+  {
+    "id": "sa-001",
+    "name": "Utility FSM Discovery Assessment Framework",
+    "description": "Structured 4-week assessment framework for utility FSM platform evaluations. Includes 47-requirement scoring matrix, vendor demo script, TCO model template, and stakeholder interview guide. Covers work order, dispatch, mobile, GIS integration, and regulatory compliance requirements.",
+    "applicable_systems": ["Salesforce Field Service", "Oracle Utilities Work Management", "IFS Field Service Management", "ServiceNow FSM", "IBM Maximo"],
+    "applicable_use_cases": ["uc-work-order-lifecycle", "uc-crew-dispatch"],
+    "artifact_path": "accelerators/fsm-discovery-assessment-framework/"
+  },
+  {
+    "id": "sa-002",
+    "name": "SAP PM to Salesforce FSM Migration Playbook",
+    "description": "End-to-end migration playbook for utilities replacing SAP Plant Maintenance with Salesforce Field Service. Covers data migration mapping (PM order types → SF work order types), custom extension inventory, union change management strategy, and 12-week cutover checklist.",
+    "applicable_systems": ["SAP Plant Maintenance", "Salesforce Field Service", "MuleSoft Anypoint Platform"],
+    "applicable_use_cases": ["uc-work-order-lifecycle", "uc-mobile-field-worker"],
+    "artifact_path": "accelerators/sap-pm-to-salesforce-fsm-playbook/"
+  },
+  {
+    "id": "sa-003",
+    "name": "Esri ArcGIS + FSM Integration Reference Architecture",
+    "description": "Reference architecture and integration patterns for connecting Esri ArcGIS Utility Network with field service management platforms. Includes event-driven work order geo-coding, asset context delivery to mobile, and field update propagation back to GIS. Middleware patterns for MuleSoft and SAP Integration Suite.",
+    "applicable_systems": ["Esri ArcGIS", "Salesforce Field Service", "Oracle Utilities Work Management", "IBM Maximo", "MuleSoft Anypoint Platform", "SAP Integration Suite"],
+    "applicable_use_cases": ["uc-gis-integration", "uc-work-order-lifecycle"],
+    "artifact_path": "accelerators/arcgis-fsm-integration-reference-arch/"
+  },
+  {
+    "id": "sa-004",
+    "name": "Mobile Field Worker Adoption Toolkit",
+    "description": "Change management and adoption toolkit for utility mobile field application rollouts. Includes union engagement playbook, train-the-trainer curriculum, adoption metrics dashboard template, device policy template, and a 90-day adoption sprint plan. Covers both iOS and Android device scenarios.",
+    "applicable_systems": ["Salesforce Field Service", "IBM Maximo", "Oracle Utilities Work Management", "IFS Field Service Management"],
+    "applicable_use_cases": ["uc-mobile-field-worker"],
+    "artifact_path": "accelerators/mobile-field-worker-adoption-toolkit/"
+  },
+  {
+    "id": "sa-005",
+    "name": "NERC CIP Field Access Control Checklist",
+    "description": "Compliance checklist and workflow template for NERC CIP-004 and CIP-006 field access controls. Maps CIP requirements to FSM work authorization workflows, contractor identity verification steps, and physical access logging. Pre-populated with standard utility audit evidence formats.",
+    "applicable_systems": ["Salesforce Field Service", "ServiceNow FSM", "Oracle Utilities Work Management"],
+    "applicable_use_cases": ["uc-safety-compliance", "uc-contractor-management"],
+    "artifact_path": "accelerators/nerc-cip-field-access-checklist/"
+  },
+  {
+    "id": "sa-006",
+    "name": "SAIDI/SAIFI Reporting Automation Template",
+    "description": "Automated SAIDI/SAIFI calculation and regulatory reporting template. Connects OMS outage event data to a pre-built calculation engine with configurable exclusion categories (Major Event Days, NERC exclusions). Outputs PUCT, CPUC, and NYSPSC formatted monthly reports. Includes variance trend dashboard.",
+    "applicable_systems": ["GE ADMS", "Schneider Electric ADMS", "Milsoft OMS", "Oracle Utilities Work Management"],
+    "applicable_use_cases": ["uc-regulatory-reporting"],
+    "artifact_path": "accelerators/saidi-saifi-reporting-template/"
+  },
+  {
+    "id": "sa-007",
+    "name": "Contractor Onboarding and Management Workflow",
+    "description": "End-to-end contractor lifecycle workflow template for utility field operations. Covers contractor company onboarding, technician credential and safety certification verification, work order assignment rules, performance scorecard, and offboarding. Designed for Salesforce Experience Cloud implementation.",
+    "applicable_systems": ["Salesforce Field Service"],
+    "applicable_use_cases": ["uc-contractor-management"],
+    "artifact_path": "accelerators/contractor-onboarding-workflow/"
+  },
+  {
+    "id": "sa-008",
+    "name": "Outage Response Playbook — OMS to FSM Integration",
+    "description": "Operational playbook and technical integration template for automating outage work order creation from OMS events into FSM. Covers storm bridge crew management, mutual aid work order handling, and restoration milestone tracking. Includes GE ADMS and Salesforce FSM reference implementation.",
+    "applicable_systems": ["GE ADMS", "Salesforce Field Service", "Oracle Utilities Work Management", "MuleSoft Anypoint Platform"],
+    "applicable_use_cases": ["uc-outage-response", "uc-work-order-lifecycle"],
+    "artifact_path": "accelerators/outage-response-oms-fsm-playbook/"
+  },
+  {
+    "id": "sa-009",
+    "name": "AMI-Driven Work Order Automation Framework",
+    "description": "Framework for automating field work order creation from AMI smart meter events. Covers tamper detection, outage confirmation, meter failure, and meter upgrade WO types. Pre-built rules engine templates for Itron and Landis+Gyr AMI platforms. Integration patterns for Oracle WM and Salesforce FSM.",
+    "applicable_systems": ["Itron AMI Platform", "Landis+Gyr AMI Platform", "Oracle Utilities Work Management", "Salesforce Field Service", "ServiceMax"],
+    "applicable_use_cases": ["uc-work-order-lifecycle", "uc-outage-response"],
+    "artifact_path": "accelerators/ami-work-order-automation/"
+  },
+  {
+    "id": "sa-010",
+    "name": "Utility FSM RFP Evaluation Scorecard",
+    "description": "Weighted scorecard template for utility FSM RFP and vendor evaluation processes. 120 evaluation criteria organized by functional area (WO management, scheduling, mobile, GIS, integration, analytics, security). Includes reference check questionnaire, demo script, and scoring normalization model. Used in 6 utility RFPs.",
+    "applicable_systems": ["Salesforce Field Service", "Oracle Utilities Work Management", "IFS Field Service Management", "ServiceNow FSM", "IBM Maximo", "ServiceMax"],
+    "applicable_use_cases": ["uc-work-order-lifecycle", "uc-crew-dispatch", "uc-mobile-field-worker", "uc-gis-integration"],
+    "artifact_path": "accelerators/utility-fsm-rfp-scorecard/"
+  }
+]

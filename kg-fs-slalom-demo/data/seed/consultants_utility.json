@@ -1,0 +1,137 @@
+[
+  {
+    "id": "con-001",
+    "name": "A. Ramirez",
+    "title": "Director, Energy & Utilities Practice",
+    "utility_experience_years": 16,
+    "location": "Los Angeles, CA",
+    "specializations": ["FSM", "SAP PM", "Utility Strategy", "OT/IT Convergence"],
+    "email": "a.ramirez@slalom.com"
+  },
+  {
+    "id": "con-002",
+    "name": "B. Nguyen",
+    "title": "Director, Field Service Transformation",
+    "utility_experience_years": 14,
+    "location": "Houston, TX",
+    "specializations": ["FSM", "Salesforce FSM", "Storm Response", "NERC CIP"],
+    "email": "b.nguyen@slalom.com"
+  },
+  {
+    "id": "con-003",
+    "name": "C. Patel",
+    "title": "Director, Grid Modernization",
+    "utility_experience_years": 18,
+    "location": "Chicago, IL",
+    "specializations": ["ADMS", "GIS", "AMI", "Smart Grid Strategy"],
+    "email": "c.patel@slalom.com"
+  },
+  {
+    "id": "con-004",
+    "name": "D. Okafor",
+    "title": "Manager, Utility FSM",
+    "utility_experience_years": 9,
+    "location": "San Francisco, CA",
+    "specializations": ["Salesforce FSM", "IBM Maximo", "Mobile Field Worker", "Change Management"],
+    "email": "d.okafor@slalom.com"
+  },
+  {
+    "id": "con-005",
+    "name": "E. Kowalski",
+    "title": "Manager, Asset Management",
+    "utility_experience_years": 11,
+    "location": "Detroit, MI",
+    "specializations": ["IBM Maximo", "SAP EAM", "Predictive Maintenance", "AVEVA PI"],
+    "email": "e.kowalski@slalom.com"
+  },
+  {
+    "id": "con-006",
+    "name": "F. Torres",
+    "title": "Manager, Utility GIS",
+    "utility_experience_years": 10,
+    "location": "Portland, OR",
+    "specializations": ["GIS", "Esri ArcGIS", "ArcGIS Utility Network", "Smallworld Migration"],
+    "email": "f.torres@slalom.com"
+  },
+  {
+    "id": "con-007",
+    "name": "G. Andersen",
+    "title": "Manager, Integration Architecture",
+    "utility_experience_years": 8,
+    "location": "Dallas, TX",
+    "specializations": ["MuleSoft", "SAP Integration Suite", "FSM Integration", "OMS/FSM"],
+    "email": "g.andersen@slalom.com"
+  },
+  {
+    "id": "con-008",
+    "name": "H. Chen",
+    "title": "Manager, Oracle Utilities",
+    "utility_experience_years": 12,
+    "location": "Seattle, WA",
+    "specializations": ["Oracle Utilities", "Oracle Work Management", "AMI Integration", "SAIDI/SAIFI"],
+    "email": "h.chen@slalom.com"
+  },
+  {
+    "id": "con-009",
+    "name": "I. Williams",
+    "title": "Senior Consultant, Salesforce FSM",
+    "utility_experience_years": 5,
+    "location": "Los Angeles, CA",
+    "specializations": ["Salesforce FSM", "Salesforce Experience Cloud", "Contractor Management"],
+    "email": "i.williams@slalom.com"
+  },
+  {
+    "id": "con-010",
+    "name": "J. Martinez",
+    "title": "Senior Consultant, IBM Maximo",
+    "utility_experience_years": 7,
+    "location": "Chicago, IL",
+    "specializations": ["IBM Maximo", "Maximo Application Suite", "Storeroom Integration"],
+    "email": "j.martinez@slalom.com"
+  },
+  {
+    "id": "con-011",
+    "name": "K. Brown",
+    "title": "Senior Consultant, GIS Integration",
+    "utility_experience_years": 6,
+    "location": "Phoenix, AZ",
+    "specializations": ["GIS", "Esri ArcGIS", "FSM Integration", "Work Order Geolocation"],
+    "email": "k.brown@slalom.com"
+  },
+  {
+    "id": "con-012",
+    "name": "L. Singh",
+    "title": "Senior Consultant, NERC CIP",
+    "utility_experience_years": 8,
+    "location": "Houston, TX",
+    "specializations": ["NERC CIP", "Physical Security", "Access Control", "Compliance"],
+    "email": "l.singh@slalom.com"
+  },
+  {
+    "id": "con-013",
+    "name": "M. Johnson",
+    "title": "Senior Consultant, AMI & Smart Grid",
+    "utility_experience_years": 5,
+    "location": "Tampa, FL",
+    "specializations": ["AMI", "Itron", "Landis+Gyr", "Outage Detection", "Work Order Automation"],
+    "email": "m.johnson@slalom.com"
+  },
+  {
+    "id": "con-014",
+    "name": "N. Davis",
+    "title": "Senior Consultant, Utility Change Management",
+    "utility_experience_years": 6,
+    "location": "New York, NY",
+    "specializations": ["Change Management", "Mobile Adoption", "Union Engagement", "Training"],
+    "email": "n.davis@slalom.com"
+  },
+  {
+    "id": "con-015",
+    "name": "O. Thompson",
+    "title": "Senior Consultant, IFS FSM",
+    "utility_experience_years": 4,
+    "location": "Denver, CO",
+    "specializations": ["IFS FSM", "IFS Applications", "Asset-Intensive Industries", "Field Operations"],
+    "email": "o.thompson@slalom.com"
+  }
+]
