@@ -163,3 +163,25 @@ tests/
   test_ner_extractor.py        — NER tests with mocked Claude responses
   test_hybrid_retrieval.py     — Retrieval tests with fixture graph + vector data
 ```
+
+---
+
+## Bug Resolution
+
+When invoked by the `/tester` skill, you will be given a path to a bug report file in
+`bugs/`. Your responsibilities:
+
+1. Read the bug report and filter for bugs where `assigned: ml-engineer`
+   and `status: open`.
+2. For each open bug:
+   a. Read the referenced file at the given line.
+   b. Apply a minimal targeted fix — no refactoring, no scope creep.
+   c. Update the bug entry in the report: set `status: resolved` and fill in `fix:`
+      with a one-line description of what you changed.
+3. After fixing all assigned bugs, confirm each fix by re-running only the tool that
+   caught the original bug (ruff / mypy / pytest) scoped to that file where possible:
+   - ruff: `ruff check backend/path/to/file.py`
+   - mypy: `mypy backend/path/to/file.py --ignore-missing-imports`
+   - pytest: `pytest tests/test_foo.py::test_name -v`
+4. Do NOT fix bugs assigned to other skills (backend-engineer, frontend-engineer, domain-sme).
+5. Do NOT open new files or refactor surrounding code — fix only what the tool flagged.

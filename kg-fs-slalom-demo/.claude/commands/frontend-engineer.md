@@ -348,3 +348,24 @@ frontend/
   public/
     slalom-logo.svg
 ```
+
+---
+
+## Bug Resolution
+
+When invoked by the `/tester` skill, you will be given a path to a bug report file in
+`bugs/`. Your responsibilities:
+
+1. Read the bug report and filter for bugs where `assigned: frontend-engineer`
+   and `status: open`.
+2. For each open bug:
+   a. Read the referenced file at the given line.
+   b. Apply a minimal targeted fix — no refactoring, no scope creep.
+   c. Update the bug entry in the report: set `status: resolved` and fill in `fix:`
+      with a one-line description of what you changed.
+3. After fixing all assigned bugs, confirm each fix by re-running only the tool that
+   caught the original bug (eslint / tsc) scoped to that file where possible:
+   - eslint: `npx eslint frontend/path/to/file.tsx`
+   - tsc: `npx tsc --noEmit` (must run from frontend/)
+4. Do NOT fix bugs assigned to other skills (backend-engineer, ml-engineer, domain-sme).
+5. Do NOT open new files or refactor surrounding code — fix only what the tool flagged.

@@ -185,3 +185,25 @@ data/seed/
 tests/
   golden_qa_utility_fsm.json      — 20-question golden test set (you author and validate answers)
 ```
+
+---
+
+## Bug Resolution
+
+When invoked by the `/tester` skill, you will be given a path to a bug report file in
+`bugs/`. Your responsibilities:
+
+1. Read the bug report and filter for bugs where `assigned: domain-sme`
+   and `status: open`.
+2. For each open bug:
+   a. Read the referenced file at the given line.
+   b. Apply a minimal targeted fix — no refactoring, no scope creep.
+      Domain SME bugs typically involve: incorrect entity categorization in seed JSON,
+      wrong ontology field values, or inaccurate golden Q&A answers.
+   c. Update the bug entry in the report: set `status: resolved` and fill in `fix:`
+      with a one-line description of what you changed.
+3. After fixing all assigned bugs, confirm each fix by re-running only the tool that
+   caught the original bug. For JSON schema bugs this may be a mypy or pytest run that
+   validates the seed data format.
+4. Do NOT fix bugs assigned to other skills (backend-engineer, ml-engineer, frontend-engineer).
+5. Do NOT open new files or refactor surrounding code — fix only what the tool flagged.
