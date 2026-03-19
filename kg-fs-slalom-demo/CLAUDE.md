@@ -355,28 +355,149 @@ Application Layer:
 
 ## 9. Phased Implementation Plan
 
-### Phase 1: MVP (Weeks 1–10)
+### Phase 1: MVP — Energy & Utility Field Services (Weeks 1–12)
 
-**Goal:** Prove value with Utilities Field Services practice. Working demo for sales meeting prep.
-
-- Manual ingestion of 20–30 curated documents (narratives, Q&A banks, architecture templates)
-- Neo4j graph with core ontology: Client, Engagement, UseCase, TechSystem, DiscoveryQuestion, Consultant
-- OpenSearch vector store with filtered search
-- Single RAG pipeline: query → hybrid retrieval → Claude Sonnet → grounded response
-- Simple Next.js chat UI with citation display
-- Single tenant (internal demo only)
-
-**Demo capabilities:**
-- "What questions should I ask an electric utility about FSM?"
-- Discovery question tree for utility FSM
-- Consultant referral routing ("Who at Slalom has done this?")
-- Graph explorer view (Neo4j Bloom or D3.js)
+**Goal:** Prove value with the Utilities Field Services practice using a substantial, domain-focused corpus.
+All documents and structured data in Phase 1 are scoped exclusively to the Energy & Utility sector.
 
 **Team:** 1 ML/AI engineer, 1 backend engineer, 1 domain SME (part-time), 1 frontend engineer (part-time)
 
 ---
 
-### Phase 2: Enhancement (Weeks 11–22)
+#### Phase 1a — Foundation (Weeks 1–2)
+
+- Ontology schema design (Protégé + Git-versioned JSON-LD)
+- Neo4j AuraDB provisioning + schema migration scripts
+- OpenSearch Serverless index creation with field mappings
+- FastAPI skeleton + health check endpoint
+- Docker Compose for local Neo4j + OpenSearch dev environment
+- Empty graph seeded with taxonomy: utility sub-industries, system vendor categories, FSM use case vocabulary
+
+**Deliverable:** Running local stack; empty graph with correct schema; CI pipeline green
+
+---
+
+#### Phase 1b — Structured Data Ingestion: Energy & Utility Focus (Weeks 3–4)
+
+**Corpus: 150–200 structured records — 100% Energy & Utility scoped**
+
+- **80–100 client/engagement records** (anonymized from CRM):
+  - Investor-owned utilities (IOUs), municipal utilities, rural electric co-ops
+  - Gas distribution utilities, pipeline operators
+  - Renewable energy operators (wind, solar, hydro)
+  - Transmission & distribution operators
+- **30–40 TechSystem nodes** scoped to utility-relevant vendors:
+  - FSM: SAP PM, Oracle eAM, Oracle Utilities Work Management, Salesforce FSM,
+    ServiceNow FSM, ClickSoftware, IFS Field Service Management
+  - GIS: Esri ArcGIS Utility Network, Smallworld GIS (GE)
+  - ADMS/OMS: GE ADMS, Schneider Electric Advanced Distribution Management, Milsoft
+  - Asset Mgmt: IBM Maximo (utility config), SAP EAM, Infor EAM, ABB Asset Suite
+  - Mobile Field: Trimble Unity, Bentley AssetWise, ServiceMax, Salesforce Field Service Mobile
+  - Telemetry/SCADA: OSIsoft PI (AVEVA), Honeywell Experion
+- **20–30 integration relationship records**: utility-specific patterns
+  (SAP PM → Esri ArcGIS, Oracle eAM → OSIsoft PI, Salesforce FSM → MuleSoft → SAP)
+- **15–20 consultant expertise profiles** (anonymized): utility + energy vertical experience
+- **10–15 SolutionAccelerator records**: utility FSM accelerators, grid modernization frameworks
+
+**Tasks:**
+- Batch loader script (CSV/JSON → Neo4j bulk import)
+- Entity resolution with utility-specific synonym dictionary
+  ("work order management" = "WOM", "outage management" = "OMS", "distribution automation" = "DA")
+- Cypher query library for utility-domain graph traversals
+
+**Deliverable:** Graph populated; key traversal queries verified (e.g., "utilities using SAP PM + Esri")
+
+---
+
+#### Phase 1c — Unstructured Document Pipeline: Energy & Utility Focus (Weeks 5–7)
+
+**Corpus: 250–350 unstructured documents — 100% Energy & Utility scoped**
+
+- **60–80 project narrative docs**: utility FSM implementations, grid modernization, AMI/smart meter
+  rollouts, outage management systems, wildfire management, renewable integration engagements
+- **50–70 discovery Q&A bank entries**: utility FSM-specific questions with likely answers:
+  - Asset lifecycle management (inspection cycles, failure modes, degradation patterns)
+  - Crew dispatch and truck rolls (scheduling, optimization, safety compliance)
+  - GIS integration (work order location, asset geospatial context)
+  - SCADA/ADMS connectivity (real-time grid data integration with field operations)
+  - Regulatory compliance (NERC CIP field access control, CPUC GO 165 inspection rules)
+  - Third-party contractor management (safety certifications, access provisioning)
+  - Mobile field application adoption (offline capability, device ruggedness, UX challenges)
+- **40–60 meeting transcript segments**: utility client conversations (speaker-turn chunked)
+- **30–40 architecture diagram captions**: utility reference architectures
+  (FSM + GIS + ADMS integration stack, mobile field worker architecture, OT/IT convergence)
+- **25–35 RFP/proposal documents**: utility FSM RFPs, vendor assessment deliverables (redacted)
+- **20–30 industry reference documents** (public sources):
+  - FERC Form 1 filings: operational + financial data for US electric utilities
+  - CPUC, PUCT, NYSPSC regulatory filings on field operations and inspection requirements
+  - NERC CIP standards affecting physical and logical access to utility assets
+  - EEI (Edison Electric Institute) workforce management industry reports
+  - Utility Dive, T&D World, Electric Light & Power articles on FSM modernization
+- **15–20 competitive landscape docs**: FSM vendor comparisons framed for utility procurement criteria
+
+**Tasks:**
+- Document processor: format detection, chunking strategy per doc type, metadata tagging
+- NER + relation extraction (Claude Haiku batch) with utility-specific entity types:
+  grid asset types (transformer, substation, feeder, meter), crew types (lineman, technician,
+  contractor), regulatory bodies (NERC, FERC, CPUC), outage event types
+- Embedding generation → OpenSearch indexing with utility metadata fields
+- Human review queue UI for entity matches with confidence < 0.80
+
+**Deliverable:** End-to-end ingestion verified on 10 sample docs; entity extraction spot-checked
+
+---
+
+#### Phase 1d — RAG Pipeline + Chat UI (Weeks 8–10)
+
+- Query analyzer: intent classification (Haiku) — lookup / discovery / narrative / routing
+- Hybrid retrieval: Cypher traversal + OpenSearch k-NN with graph-anchored filtering
+- Context assembler: deduplication, re-ranking (graph relevance × semantic score × recency), window trimming
+- Claude Sonnet generation with inline citation injection
+- Hallucination validator: all entity names in response must appear verbatim in context
+- Next.js chat UI: citation display, follow-up question suggestions, consultant referral cards
+- Structured output: `{answer, citations[], suggested_follow_ups[], consultant_referrals[]}`
+
+**Verification:** 20-question utility FSM golden test set; retrieval precision ≥ 0.75
+
+---
+
+#### Phase 1e — Demo Hardening (Weeks 11–12)
+
+- Interactive discovery question tree for Utility FSM (branching on consultant answers)
+- Meeting prep brief generator: structured brief with key questions, relevant past work,
+  system landscape, regulatory context, suggested consultants
+- Graph explorer view (Neo4j Bloom or D3.js): utility client → system → engagement traversal
+- Feedback capture: thumbs up/down → feedback table for future reranker training
+- Performance target: p95 query latency < 8s end-to-end
+- Ingest 50 additional utility documents from Phase 1c backlog
+- Demo script + fixture data for SDG&E FSM scenario
+
+**Verification:** Full end-to-end demo with 3 representative consultant queries:
+1. "What questions should I ask SDG&E about their FSM replacement?"
+2. "Which Slalom consultants have done utility FSM work and what did they find?"
+3. "What does a typical FSM + GIS integration architecture look like for an IOU?"
+
+---
+
+**Phase 1 Total Document Corpus: ~400–550 documents — 100% Energy & Utility scoped**
+
+| Category | Count |
+|---|---|
+| Structured records (clients, systems, integrations, consultants, accelerators) | 150–200 |
+| Project narratives + case studies | 60–80 |
+| Discovery Q&A bank entries | 50–70 |
+| Meeting transcripts | 40–60 |
+| Architecture diagrams (captioned) | 30–40 |
+| RFP / proposals | 25–35 |
+| Industry + regulatory references | 20–30 |
+| Competitive landscape | 15–20 |
+| **Total** | **~400–550** |
+
+> Phase 2 expands to adjacent energy domains: renewable generation, T&D operations, water utilities, gas distribution
+
+---
+
+### Phase 2: Enhancement (Weeks 13–24)
 
 **Goal:** Production-ready for 3 practices. Automated ingestion.
 
